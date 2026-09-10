@@ -1,3 +1,12 @@
+"""
+Simule le flux d'evenements "order_created" (Source D du cahier des charges).
+
+Dans une vraie entreprise, ce flux viendrait d'un systeme de messages
+(Kafka, RabbitMQ...). Ici on le simule avec un simple fichier texte,
+au format JSON Lines : un objet JSON complet par ligne, exactement comme
+les vrais systemes de streaming envoient leurs messages, un par un.
+"""
+
 import json
 import uuid
 from pathlib import Path
