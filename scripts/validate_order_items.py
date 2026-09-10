@@ -2,24 +2,21 @@
 Validation de la table order_items (Data Quality).
 Meme principe que validate_orders.py.
 """
-from datetime import date
 from pathlib import Path
 
 import pandas as pd
+
+from src.quality.storage import read_latest, write_valid_invalid
+from src.quality.report import print_quality_report
 
 RAW_DIR = Path("data/raw")
 INTERIM_DIR = Path("data/interim")
 QUARANTINE_DIR = Path("data/quarantine")
 
 
-def latest_partition(table: str) -> Path:
-    partitions = sorted((RAW_DIR / table).glob("ingestion_date=*"))
-    return partitions[-1]
-
-
 def main():
-    items = pd.read_parquet(latest_partition("order_items") / "order_items.parquet")
-    orders = pd.read_parquet(latest_partition("orders") / "orders.parquet")
+    items = read_latest(RAW_DIR, "order_items")
+    orders = read_latest(RAW_DIR, "orders")
     known_order_ids = set(orders["order_id"])
 
     rule_item_id_present = items["order_item_id"].notna()
@@ -47,28 +44,15 @@ def main():
 
     invalid_items["rejection_reason"] = [reasons(i) for i in invalid_items.index]
 
-    ingestion_date = date.today().isoformat()
-
-    interim_dir = INTERIM_DIR / "order_items" / f"ingestion_date={ingestion_date}"
-    interim_dir.mkdir(parents=True, exist_ok=True)
-    valid_items.to_parquet(interim_dir / "order_items.parquet", index=False)
-
-    quarantine_dir = QUARANTINE_DIR / "order_items" / f"ingestion_date={ingestion_date}"
-    quarantine_dir.mkdir(parents=True, exist_ok=True)
-    invalid_items.to_parquet(quarantine_dir / "order_items.parquet", index=False)
+    write_valid_invalid(valid_items, invalid_items, "order_items", INTERIM_DIR, QUARANTINE_DIR)
 
     total, valid_count, rejected_count = len(items), len(valid_items), len(invalid_items)
 
-    print("DATA QUALITY REPORT - order_items")
-    print("-" * 40)
-    print(f"Rows processed  : {total:,}")
-    print(f"Valid rows      : {valid_count:,}")
-    print(f"Rejected rows   : {rejected_count:,}")
-    print(f"Quality score   : {100 * valid_count / total:.2f}%")
-    print()
-    print(f"Unknown order_id   : {(~rule_order_exists).sum():,}")
-    print(f"Invalid quantity   : {(~rule_quantity_positive).sum():,}")
-    print(f"Negative price     : {(~rule_price_non_negative).sum():,}")
+    print_quality_report("order_items", total, valid_count, rejected_count, {
+        "Unknown order_id": (~rule_order_exists).sum(),
+        "Invalid quantity": (~rule_quantity_positive).sum(),
+        "Negative price": (~rule_price_non_negative).sum(),
+    })
 
 
 if __name__ == "__main__":

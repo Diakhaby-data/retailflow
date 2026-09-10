@@ -3,10 +3,12 @@ Validation de la table orders (Data Quality).
 Separe les lignes valides des invalides, ecrit les deux quelque part,
 et affiche un rapport chiffre.
 """
-from datetime import date
 from pathlib import Path
 
 import pandas as pd
+
+from src.quality.storage import read_latest, write_valid_invalid
+from src.quality.report import print_quality_report
 
 RAW_DIR = Path("data/raw")
 INTERIM_DIR = Path("data/interim")
@@ -15,17 +17,11 @@ QUARANTINE_DIR = Path("data/quarantine")
 ALLOWED_STATUSES = {"pending", "paid", "shipped", "delivered", "cancelled"}
 
 
-def latest_partition(table: str) -> Path:
-    partitions = sorted((RAW_DIR / table).glob("ingestion_date=*"))
-    return partitions[-1]  # le plus recent, grace au format AAAA-MM-JJ trie alphabetiquement
-
-
 def main():
-    orders = pd.read_parquet(latest_partition("orders") / "orders.parquet")
-    customers = pd.read_parquet(latest_partition("customers") / "customers.parquet")
+    orders = read_latest(RAW_DIR, "orders")
+    customers = read_latest(RAW_DIR, "customers")
     known_customer_ids = set(customers["customer_id"])
 
-    # chaque regle = un masque booleen (Vrai/Faux par ligne)
     rule_id_present = orders["order_id"].notna()
     rule_not_duplicate = ~orders.duplicated(subset="order_id", keep="first")
     rule_customer_not_null = orders["customer_id"].notna()
@@ -60,31 +56,18 @@ def main():
 
     invalid_orders["rejection_reason"] = [reasons(i) for i in invalid_orders.index]
 
-    ingestion_date = date.today().isoformat()
-
-    interim_dir = INTERIM_DIR / "orders" / f"ingestion_date={ingestion_date}"
-    interim_dir.mkdir(parents=True, exist_ok=True)
-    valid_orders.to_parquet(interim_dir / "orders.parquet", index=False)
-
-    quarantine_dir = QUARANTINE_DIR / "orders" / f"ingestion_date={ingestion_date}"
-    quarantine_dir.mkdir(parents=True, exist_ok=True)
-    invalid_orders.to_parquet(quarantine_dir / "orders.parquet", index=False)
+    write_valid_invalid(valid_orders, invalid_orders, "orders", INTERIM_DIR, QUARANTINE_DIR)
 
     total, valid_count, rejected_count = len(orders), len(valid_orders), len(invalid_orders)
 
-    print("DATA QUALITY REPORT - orders")
-    print("-" * 40)
-    print(f"Rows processed  : {total:,}")
-    print(f"Valid rows      : {valid_count:,}")
-    print(f"Rejected rows   : {rejected_count:,}")
-    print(f"Quality score   : {100 * valid_count / total:.2f}%")
-    print()
-    print(f"Duplicates                 : {(~rule_not_duplicate).sum():,}")
-    print(f"Null values (customer_id)  : {(~rule_customer_not_null).sum():,}")
-    print(f"Referential errors         : {(~rule_customer_known).sum():,}")
-    print(f"Invalid status             : {(~rule_status_valid).sum():,}")
-    print(f"Invalid dates              : {(~rule_date_valid).sum():,}")
-    print(f"Negative amounts           : {(~rule_amount_positive).sum():,}")
+    print_quality_report("orders", total, valid_count, rejected_count, {
+        "Duplicates": (~rule_not_duplicate).sum(),
+        "Null values (customer_id)": (~rule_customer_not_null).sum(),
+        "Referential errors": (~rule_customer_known).sum(),
+        "Invalid status": (~rule_status_valid).sum(),
+        "Invalid dates": (~rule_date_valid).sum(),
+        "Negative amounts": (~rule_amount_positive).sum(),
+    })
 
 
 if __name__ == "__main__":
