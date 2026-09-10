@@ -10,3 +10,5 @@ data/processed/*
 !data/processed/.gitkeep
 data/external/*
 !data/external/.gitkeep
+data/quarantine/*
+!data/quarantine/.gitkeep
