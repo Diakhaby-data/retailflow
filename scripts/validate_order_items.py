@@ -4,8 +4,6 @@ Meme principe que validate_orders.py.
 """
 from pathlib import Path
 
-import pandas as pd
-
 from src.quality.storage import read_latest, write_valid_invalid
 from src.quality.report import print_quality_report
 
@@ -16,7 +14,7 @@ QUARANTINE_DIR = Path("data/quarantine")
 
 def main():
     items = read_latest(RAW_DIR, "order_items")
-    orders = read_latest(RAW_DIR, "orders")
+    orders = read_latest(INTERIM_DIR, "orders")
     known_order_ids = set(orders["order_id"])
 
     rule_item_id_present = items["order_item_id"].notna()
