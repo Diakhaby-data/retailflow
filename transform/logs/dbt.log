@@ -1,0 +1,719 @@
+[0m17:25:53.570482 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x75138c98ef00>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x75138d358410>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x75138d3584a0>]}
+
+
+============================== 17:25:53.578391 | 9b81b061-77f0-4b26-a006-1484da695404 ==============================
+[0m17:25:53.578391 [info ] [MainThread]: Running with dbt=1.12.4
+[0m17:25:53.580198 [debug] [MainThread]: running dbt with arguments {'hints_enabled': 'True', 'maximum_seed_size_mib': '1', 'printer_width': '80', 'debug': 'False', 'partial_parse': 'True', 'fail_fast': 'False', 'static_parser': 'True', 'no_print': 'None', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'log_path': '/home/dkb/ecommerce/transform/logs', 'warn_error': 'None', 'indirect_selection': 'eager', 'use_experimental_parser': 'False', 'cache_selected_only': 'False', 'log_cache_events': 'False', 'write_json': 'True', 'quiet': 'False', 'introspect': 'True', 'send_anonymous_usage_stats': 'True', 'invocation_command': 'dbt debug', 'target_path': 'None', 'use_colors': 'True', 'version_check': 'True', 'empty': 'None', 'profiles_dir': '/home/dkb/.dbt', 'log_format': 'default'}
+[0m17:25:53.608239 [info ] [MainThread]: dbt version: 1.12.4
+[0m17:25:53.609333 [info ] [MainThread]: python version: 3.12.3
+[0m17:25:53.610658 [info ] [MainThread]: python path: /home/dkb/ecommerce/venv/bin/python3
+[0m17:25:53.611924 [info ] [MainThread]: os info: Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.39
+[0m17:25:53.774174 [info ] [MainThread]: Using profiles dir at /home/dkb/.dbt
+[0m17:25:53.775315 [info ] [MainThread]: Using profiles.yml file at /home/dkb/.dbt/profiles.yml
+[0m17:25:53.776194 [info ] [MainThread]: Using dbt_project.yml file at /home/dkb/ecommerce/transform/dbt_project.yml
+[0m17:25:53.777350 [info ] [MainThread]: adapter type: postgres
+[0m17:25:53.778169 [info ] [MainThread]: adapter version: 1.11.0
+[0m17:25:54.140017 [info ] [MainThread]: Configuration:
+[0m17:25:54.141042 [info ] [MainThread]:   profiles.yml file [[32mOK found and valid[0m]
+[0m17:25:54.141924 [info ] [MainThread]:   dbt_project.yml file [[32mOK found and valid[0m]
+[0m17:25:54.142765 [info ] [MainThread]: Required dependencies:
+[0m17:25:54.143722 [debug] [MainThread]: Executing "git --help"
+[0m17:25:54.150344 [debug] [MainThread]: STDOUT: "b"usage: git [-v | --version] [-h | --help] [-C <path>] [-c <name>=<value>]\n           [--exec-path[=<path>]] [--html-path] [--man-path] [--info-path]\n           [-p | --paginate | -P | --no-pager] [--no-replace-objects] [--bare]\n           [--git-dir=<path>] [--work-tree=<path>] [--namespace=<name>]\n           [--config-env=<name>=<envvar>] <command> [<args>]\n\nThese are common Git commands used in various situations:\n\nstart a working area (see also: git help tutorial)\n   clone     Clone a repository into a new directory\n   init      Create an empty Git repository or reinitialize an existing one\n\nwork on the current change (see also: git help everyday)\n   add       Add file contents to the index\n   mv        Move or rename a file, a directory, or a symlink\n   restore   Restore working tree files\n   rm        Remove files from the working tree and from the index\n\nexamine the history and state (see also: git help revisions)\n   bisect    Use binary search to find the commit that introduced a bug\n   diff      Show changes between commits, commit and working tree, etc\n   grep      Print lines matching a pattern\n   log       Show commit logs\n   show      Show various types of objects\n   status    Show the working tree status\n\ngrow, mark and tweak your common history\n   branch    List, create, or delete branches\n   commit    Record changes to the repository\n   merge     Join two or more development histories together\n   rebase    Reapply commits on top of another base tip\n   reset     Reset current HEAD to the specified state\n   switch    Switch branches\n   tag       Create, list, delete or verify a tag object signed with GPG\n\ncollaborate (see also: git help workflows)\n   fetch     Download objects and refs from another repository\n   pull      Fetch from and integrate with another repository or a local branch\n   push      Update remote refs along with associated objects\n\n'git help -a' and 'git help -g' list available subcommands and some\nconcept guides. See 'git help <command>' or 'git help <concept>'\nto read about a specific subcommand or concept.\nSee 'git help git' for an overview of the system.\n""
+[0m17:25:54.152170 [debug] [MainThread]: STDERR: "b''"
+[0m17:25:54.153581 [info ] [MainThread]:  - git [[32mOK found[0m]
+
+[0m17:25:54.154849 [info ] [MainThread]: Connection:
+[0m17:25:54.156269 [info ] [MainThread]:   host: localhost
+[0m17:25:54.157566 [info ] [MainThread]:   port: 55432
+[0m17:25:54.159012 [info ] [MainThread]:   user: retailflow
+[0m17:25:54.160403 [info ] [MainThread]:   database: retailflow
+[0m17:25:54.161910 [info ] [MainThread]:   schema: staging
+[0m17:25:54.163433 [info ] [MainThread]:   connect_timeout: 10
+[0m17:25:54.164979 [info ] [MainThread]:   role: None
+[0m17:25:54.166365 [info ] [MainThread]:   search_path: None
+[0m17:25:54.167813 [info ] [MainThread]:   keepalives_idle: 0
+[0m17:25:54.168817 [info ] [MainThread]:   sslmode: None
+[0m17:25:54.170245 [info ] [MainThread]:   sslcert: None
+[0m17:25:54.172473 [info ] [MainThread]:   sslkey: None
+[0m17:25:54.174187 [info ] [MainThread]:   sslrootcert: None
+[0m17:25:54.176597 [info ] [MainThread]:   application_name: dbt
+[0m17:25:54.178695 [info ] [MainThread]:   autocommit: False
+[0m17:25:54.180907 [info ] [MainThread]:   retries: 1
+[0m17:25:54.182638 [info ] [MainThread]: Registered adapter: postgres=1.11.0
+[0m17:25:52.760541 [debug] [MainThread]: Acquiring new postgres connection 'debug'
+[0m17:25:52.853184 [debug] [MainThread]: Using postgres connection "debug"
+[0m17:25:52.854130 [debug] [MainThread]: On debug: select 1 as id
+[0m17:25:52.854904 [debug] [MainThread]: Opening a new connection, currently in state init
+[0m17:25:52.926711 [debug] [MainThread]: SQL status: SELECT 1 in 0.072 seconds
+[0m17:25:52.929085 [debug] [MainThread]: On debug: Close
+[0m17:25:52.930076 [info ] [MainThread]:   Connection test: [[32mOK connection ok[0m]
+
+[0m17:25:52.930995 [info ] [MainThread]: [32mAll checks passed![0m
+[0m17:25:52.934035 [debug] [MainThread]: Resource report: {"command_name": "debug", "command_success": true, "command_wall_clock_time": 1.2806511, "process_in_blocks": "480", "process_kernel_time": 0.673449, "process_mem_max_rss": "122300", "process_out_blocks": "24", "process_user_time": 4.793596}
+[0m17:25:52.935377 [debug] [MainThread]: Command `dbt debug` succeeded at 17:25:52.935083 after 1.28 seconds
+[0m17:25:52.936285 [debug] [MainThread]: Connection 'debug' was properly closed.
+[0m17:25:52.937128 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x75138ca3f470>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x75138ca3eab0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x75138c18ae40>]}
+[0m17:25:52.938297 [debug] [MainThread]: Flushing usage events
+[0m17:25:53.357290 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m17:26:16.554329 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x783d53b9c380>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x783d517f6db0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x783d517f6de0>]}
+
+
+============================== 17:26:16.562141 | 5541a6d7-0ca6-43cf-9269-505a91a6a35b ==============================
+[0m17:26:16.562141 [info ] [MainThread]: Running with dbt=1.12.4
+[0m17:26:16.563950 [debug] [MainThread]: running dbt with arguments {'no_print': 'None', 'log_cache_events': 'False', 'introspect': 'True', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'debug': 'False', 'invocation_command': 'dbt run', 'fail_fast': 'False', 'quiet': 'False', 'target_path': 'None', 'hints_enabled': 'True', 'printer_width': '80', 'send_anonymous_usage_stats': 'True', 'log_format': 'default', 'warn_error': 'None', 'empty': 'False', 'use_colors': 'True', 'log_path': '/home/dkb/ecommerce/transform/logs', 'profiles_dir': '/home/dkb/.dbt', 'partial_parse': 'True', 'static_parser': 'True', 'indirect_selection': 'eager', 'maximum_seed_size_mib': '1', 'write_json': 'True', 'cache_selected_only': 'False', 'use_experimental_parser': 'False', 'version_check': 'True'}
+[0m17:26:17.232520 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': '5541a6d7-0ca6-43cf-9269-505a91a6a35b', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x783d507d3260>]}
+[0m17:26:17.660174 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': '5541a6d7-0ca6-43cf-9269-505a91a6a35b', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x783d51f0da30>]}
+[0m17:26:17.663091 [info ] [MainThread]: Registered adapter: postgres=1.11.0
+[0m17:26:17.893241 [debug] [MainThread]: checksum: 955ebf9ac31ac299b1961a817dd884946c4dea6d71d4f0ff8cd838d32ca4031c, vars: {}, profile: retailflow, target: dev, version: 1.12.4
+[0m17:26:17.895313 [info ] [MainThread]: Unable to do partial parsing because saved manifest not found. Starting full parse.
+[0m17:26:17.896739 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'partial_parser', 'label': '5541a6d7-0ca6-43cf-9269-505a91a6a35b', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x783d50b2a270>]}
+[0m17:26:21.616026 [warn ] [MainThread]: [[33mWARNING[0m]: Configuration paths exist in your dbt_project.yml file which do not apply to any resources.
+There are 1 unused configuration paths:
+- models.retailflow_transform.marts
+[0m17:26:21.624924 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'load_project', 'label': '5541a6d7-0ca6-43cf-9269-505a91a6a35b', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x783d51e599a0>]}
+[0m17:26:21.875156 [debug] [MainThread]: Wrote artifact WritableManifest to /home/dkb/ecommerce/transform/target/manifest.json
+[0m17:26:21.884924 [debug] [MainThread]: Wrote artifact SemanticManifest to /home/dkb/ecommerce/transform/target/semantic_manifest.json
+[0m17:26:21.925763 [debug] [MainThread]: Wrote artifact OsiDocument to /home/dkb/ecommerce/transform/target/osi_document.json
+[0m17:26:21.952649 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'resource_counts', 'label': '5541a6d7-0ca6-43cf-9269-505a91a6a35b', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x783d4ebf6150>]}
+[0m17:26:21.953890 [info ] [MainThread]: Found 1 model, 10 sources, 478 macros
+[0m17:26:21.954831 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': '5541a6d7-0ca6-43cf-9269-505a91a6a35b', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x783d4e73c170>]}
+[0m17:26:21.959660 [info ] [MainThread]: 
+[0m17:26:21.961410 [info ] [MainThread]: Concurrency: 4 threads (target='dev')
+[0m17:26:21.962651 [info ] [MainThread]: 
+[0m17:26:21.965267 [debug] [MainThread]: Acquiring new postgres connection 'master'
+[0m17:26:21.969294 [debug] [ThreadPool]: Acquiring new postgres connection 'list_retailflow'
+[0m17:26:22.092234 [debug] [ThreadPool]: Using postgres connection "list_retailflow"
+[0m17:26:22.093562 [debug] [ThreadPool]: On list_retailflow: /* {"app": "dbt", "dbt_version": "1.12.4", "profile_name": "retailflow", "target_name": "dev", "connection_name": "list_retailflow"} */
+
+    select distinct nspname from pg_namespace
+  
+[0m17:26:22.094905 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m17:26:22.161224 [debug] [ThreadPool]: SQL status: SELECT 5 in 0.066 seconds
+[0m17:26:22.168717 [debug] [ThreadPool]: On list_retailflow: Close
+[0m17:26:22.172053 [debug] [ThreadPool]: Re-using an available connection from the pool (formerly list_retailflow, now create_retailflow_staging)
+[0m17:26:22.174172 [debug] [ThreadPool]: Creating schema "database: "retailflow"
+schema: "staging"
+"
+[0m17:26:22.190213 [debug] [ThreadPool]: Using postgres connection "create_retailflow_staging"
+[0m17:26:22.191613 [debug] [ThreadPool]: On create_retailflow_staging: /* {"app": "dbt", "dbt_version": "1.12.4", "profile_name": "retailflow", "target_name": "dev", "connection_name": "create_retailflow_staging"} */
+create schema if not exists "staging"
+[0m17:26:22.192954 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m17:26:22.227884 [debug] [ThreadPool]: SQL status: CREATE SCHEMA in 0.035 seconds
+[0m17:26:22.233092 [debug] [ThreadPool]: On create_retailflow_staging: COMMIT
+[0m17:26:22.234906 [debug] [ThreadPool]: Using postgres connection "create_retailflow_staging"
+[0m17:26:22.237423 [debug] [ThreadPool]: On create_retailflow_staging: COMMIT
+[0m17:26:22.244866 [debug] [ThreadPool]: SQL status: COMMIT in 0.005 seconds
+[0m17:26:22.246596 [debug] [ThreadPool]: On create_retailflow_staging: Close
+[0m17:26:22.252885 [debug] [ThreadPool]: Re-using an available connection from the pool (formerly create_retailflow_staging, now list_retailflow_staging)
+[0m17:26:22.276148 [debug] [ThreadPool]: Using postgres connection "list_retailflow_staging"
+[0m17:26:22.279016 [debug] [ThreadPool]: On list_retailflow_staging: /* {"app": "dbt", "dbt_version": "1.12.4", "profile_name": "retailflow", "target_name": "dev", "connection_name": "list_retailflow_staging"} */
+select
+      'retailflow' as database,
+      tablename as name,
+      schemaname as schema,
+      'table' as type
+    from pg_tables
+    where schemaname ilike 'staging'
+    union all
+    select
+      'retailflow' as database,
+      viewname as name,
+      schemaname as schema,
+      'view' as type
+    from pg_views
+    where schemaname ilike 'staging'
+    union all
+    select
+      'retailflow' as database,
+      matviewname as name,
+      schemaname as schema,
+      'materialized_view' as type
+    from pg_matviews
+    where schemaname ilike 'staging'
+    union all
+    select distinct
+     'retailflow' as database,
+     proname as name,
+     ns.nspname as schema,
+     'function' as type
+    from pg_proc
+     join pg_namespace as ns on pronamespace = ns.oid
+    where ns.nspname ilike 'staging'
+  
+[0m17:26:22.280497 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m17:26:22.369852 [debug] [ThreadPool]: SQL status: SELECT 0 in 0.089 seconds
+[0m17:26:22.375980 [debug] [ThreadPool]: On list_retailflow_staging: ROLLBACK
+[0m17:26:22.385561 [debug] [ThreadPool]: On list_retailflow_staging: Close
+[0m17:26:22.398543 [debug] [MainThread]: Using postgres connection "master"
+[0m17:26:22.399692 [debug] [MainThread]: On master: /* {"app": "dbt", "dbt_version": "1.12.4", "profile_name": "retailflow", "target_name": "dev", "connection_name": "master"} */
+select distinct
+        dependent_namespace.nspname as dependent_schema,
+        dependent_class.relname as dependent_name,
+        referenced_namespace.nspname as referenced_schema,
+        referenced_class.relname as referenced_name
+
+    -- Query for views: views are entries in pg_class with an entry in pg_rewrite, but we avoid
+    -- a seq scan on pg_rewrite by leveraging the fact there is an "internal" row in pg_depend for
+    -- the view...
+    from pg_class as dependent_class
+    join pg_namespace as dependent_namespace on dependent_namespace.oid = dependent_class.relnamespace
+    join pg_depend as dependent_depend on dependent_depend.refobjid = dependent_class.oid
+        and dependent_depend.classid = 'pg_rewrite'::regclass
+        and dependent_depend.refclassid = 'pg_class'::regclass
+        and dependent_depend.deptype = 'i'
+
+    -- ... and via pg_depend (that has a row per column, hence the need for "distinct" above, and
+    -- making sure to exclude the internal row to avoid a view appearing to depend on itself)...
+    join pg_depend as joining_depend on joining_depend.objid = dependent_depend.objid
+        and joining_depend.classid = 'pg_rewrite'::regclass
+        and joining_depend.refclassid = 'pg_class'::regclass
+        and joining_depend.refobjid != dependent_depend.refobjid
+
+    -- ... we can find the tables they query from in pg_class, but excluding system tables. Note we
+    -- don't need need to exclude _dependent_ system tables, because they only query from other
+    -- system tables, and so are automatically excluded by excluding _referenced_ system tables
+    join pg_class as referenced_class on referenced_class.oid = joining_depend.refobjid
+    join pg_namespace as referenced_namespace on referenced_namespace.oid = referenced_class.relnamespace
+        and referenced_namespace.nspname != 'information_schema'
+        and referenced_namespace.nspname not like 'pg\_%'
+
+    order by
+        dependent_schema, dependent_name, referenced_schema, referenced_name;
+[0m17:26:22.400655 [debug] [MainThread]: Opening a new connection, currently in state init
+[0m17:26:22.452798 [debug] [MainThread]: SQL status: SELECT 0 in 0.052 seconds
+[0m17:26:22.455455 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': '5541a6d7-0ca6-43cf-9269-505a91a6a35b', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x783d4e73f200>]}
+[0m17:26:22.456652 [debug] [MainThread]: On master: ROLLBACK
+[0m17:26:22.458321 [debug] [MainThread]: On master: COMMIT
+[0m17:26:22.459271 [debug] [MainThread]: Using postgres connection "master"
+[0m17:26:22.460058 [debug] [MainThread]: On master: COMMIT
+[0m17:26:22.462999 [debug] [MainThread]: SQL status: COMMIT in 0.002 seconds
+[0m17:26:22.464278 [debug] [MainThread]: On master: Close
+[0m17:26:22.479187 [debug] [Thread-1 (]: Began running node model.retailflow_transform.stg_customers
+[0m17:26:22.481122 [info ] [Thread-1 (]: 1 of 1 START sql view model staging.stg_customers .............................. [RUN]
+[0m17:26:22.483167 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly list_retailflow_staging, now model.retailflow_transform.stg_customers)
+[0m17:26:22.484314 [debug] [Thread-1 (]: Began compiling node model.retailflow_transform.stg_customers
+[0m17:26:22.499791 [debug] [Thread-1 (]: Writing injected SQL for node "model.retailflow_transform.stg_customers"
+[0m17:26:22.503883 [debug] [Thread-1 (]: Began executing node model.retailflow_transform.stg_customers
+[0m17:26:20.950194 [debug] [Thread-1 (]: Writing runtime sql for node "model.retailflow_transform.stg_customers"
+[0m17:26:20.956186 [debug] [Thread-1 (]: Using postgres connection "model.retailflow_transform.stg_customers"
+[0m17:26:20.957840 [debug] [Thread-1 (]: On model.retailflow_transform.stg_customers: /* {"app": "dbt", "dbt_version": "1.12.4", "profile_name": "retailflow", "target_name": "dev", "node_id": "model.retailflow_transform.stg_customers"} */
+
+  create view "retailflow"."staging"."stg_customers__dbt_tmp"
+    
+    
+  as (
+    select
+    customer_key,
+    customer_id,
+    first_name,
+    last_name,
+    email,
+    country,
+    city,
+    signup_date,
+    customer_segment
+from "retailflow"."dwh"."dim_customer"
+  );
+[0m17:26:20.959321 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m17:26:21.015040 [debug] [Thread-1 (]: SQL status: CREATE VIEW in 0.056 seconds
+[0m17:26:21.029242 [debug] [Thread-1 (]: Using postgres connection "model.retailflow_transform.stg_customers"
+[0m17:26:21.030400 [debug] [Thread-1 (]: On model.retailflow_transform.stg_customers: /* {"app": "dbt", "dbt_version": "1.12.4", "profile_name": "retailflow", "target_name": "dev", "node_id": "model.retailflow_transform.stg_customers"} */
+alter table "retailflow"."staging"."stg_customers__dbt_tmp" rename to "stg_customers"
+[0m17:26:21.033388 [debug] [Thread-1 (]: SQL status: ALTER TABLE in 0.002 seconds
+[0m17:26:21.073138 [debug] [Thread-1 (]: On model.retailflow_transform.stg_customers: COMMIT
+[0m17:26:21.074543 [debug] [Thread-1 (]: Using postgres connection "model.retailflow_transform.stg_customers"
+[0m17:26:21.075635 [debug] [Thread-1 (]: On model.retailflow_transform.stg_customers: COMMIT
+[0m17:26:21.083277 [debug] [Thread-1 (]: SQL status: COMMIT in 0.006 seconds
+[0m17:26:21.099128 [debug] [Thread-1 (]: Applying DROP to: "retailflow"."staging"."stg_customers__dbt_backup"
+[0m17:26:21.115975 [debug] [Thread-1 (]: Using postgres connection "model.retailflow_transform.stg_customers"
+[0m17:26:21.117401 [debug] [Thread-1 (]: On model.retailflow_transform.stg_customers: /* {"app": "dbt", "dbt_version": "1.12.4", "profile_name": "retailflow", "target_name": "dev", "node_id": "model.retailflow_transform.stg_customers"} */
+drop view if exists "retailflow"."staging"."stg_customers__dbt_backup" cascade
+[0m17:26:21.121553 [debug] [Thread-1 (]: SQL status: DROP VIEW in 0.003 seconds
+[0m17:26:21.130135 [debug] [Thread-1 (]: On model.retailflow_transform.stg_customers: Close
+[0m17:26:21.137271 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '5541a6d7-0ca6-43cf-9269-505a91a6a35b', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x783d539aff80>]}
+[0m17:26:21.139501 [info ] [Thread-1 (]: 1 of 1 OK created sql view model staging.stg_customers ......................... [[32mCREATE VIEW[0m in -1.35s]
+[0m17:26:21.141569 [debug] [Thread-1 (]: Finished running node model.retailflow_transform.stg_customers
+[0m17:26:21.147471 [debug] [MainThread]: On master: COMMIT
+[0m17:26:21.149098 [debug] [MainThread]: Using postgres connection "master"
+[0m17:26:21.150160 [debug] [MainThread]: On master: COMMIT
+[0m17:26:21.151021 [debug] [MainThread]: Opening a new connection, currently in state closed
+[0m17:26:21.178852 [debug] [MainThread]: SQL status: COMMIT in 0.028 seconds
+[0m17:26:21.181138 [debug] [MainThread]: On master: Close
+[0m17:26:21.183552 [debug] [MainThread]: Connection 'master' was properly closed.
+[0m17:26:21.184958 [debug] [MainThread]: Connection 'model.retailflow_transform.stg_customers' was properly closed.
+[0m17:26:21.186458 [info ] [MainThread]: 
+[0m17:26:21.187980 [info ] [MainThread]: Finished running 1 view model in -1 hours 59 minutes and 59.22 seconds (-0.78s).
+[0m17:26:21.190123 [debug] [MainThread]: Command end result
+[0m17:26:21.304783 [debug] [MainThread]: Wrote artifact WritableManifest to /home/dkb/ecommerce/transform/target/manifest.json
+[0m17:26:21.311269 [debug] [MainThread]: Wrote artifact SemanticManifest to /home/dkb/ecommerce/transform/target/semantic_manifest.json
+[0m17:26:21.318727 [debug] [MainThread]: Wrote artifact OsiDocument to /home/dkb/ecommerce/transform/target/osi_document.json
+[0m17:26:21.337798 [debug] [MainThread]: Wrote artifact RunExecutionResult to /home/dkb/ecommerce/transform/target/run_results.json
+[0m17:26:21.339197 [info ] [MainThread]: 
+[0m17:26:21.340608 [info ] [MainThread]: [32mCompleted successfully[0m
+[0m17:26:21.341730 [info ] [MainThread]: 
+[0m17:26:21.342867 [info ] [MainThread]: Done. PASS=1 WARN=0 ERROR=0 SKIP=0 NO-OP=0 REUSED=0 TOTAL=1
+[0m17:26:21.345135 [debug] [MainThread]: Resource report: {"command_name": "run", "command_success": true, "command_wall_clock_time": 6.7511883, "process_in_blocks": "200", "process_kernel_time": 0.748956, "process_mem_max_rss": "138044", "process_out_blocks": "3296", "process_user_time": 10.054178}
+[0m17:26:21.347019 [debug] [MainThread]: Command `dbt run` succeeded at 17:26:21.346401 after 6.75 seconds
+[0m17:26:21.349149 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x783d4ef32900>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x783d4fb30950>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x783d539aff80>]}
+[0m17:26:21.351192 [debug] [MainThread]: Flushing usage events
+[0m17:26:21.844039 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m17:32:50.168996 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7e94b3996630>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7e94b3a401d0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7e94b3a43020>]}
+
+
+============================== 17:32:50.176839 | 37c230dc-2e80-416a-978e-8e3b1b83afb0 ==============================
+[0m17:32:50.176839 [info ] [MainThread]: Running with dbt=1.12.4
+[0m17:32:50.178455 [debug] [MainThread]: running dbt with arguments {'introspect': 'True', 'target_path': 'None', 'empty': 'False', 'debug': 'False', 'no_print': 'None', 'log_cache_events': 'False', 'fail_fast': 'False', 'invocation_command': 'dbt run', 'maximum_seed_size_mib': '1', 'send_anonymous_usage_stats': 'True', 'use_colors': 'True', 'static_parser': 'True', 'warn_error': 'None', 'quiet': 'False', 'log_format': 'default', 'write_json': 'True', 'log_path': '/home/dkb/ecommerce/transform/logs', 'partial_parse': 'True', 'printer_width': '80', 'cache_selected_only': 'False', 'use_experimental_parser': 'False', 'indirect_selection': 'eager', 'profiles_dir': '/home/dkb/.dbt', 'hints_enabled': 'True', 'version_check': 'True', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])'}
+[0m17:32:50.776816 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': '37c230dc-2e80-416a-978e-8e3b1b83afb0', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7e94b3a74530>]}
+[0m17:32:51.064290 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': '37c230dc-2e80-416a-978e-8e3b1b83afb0', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7e94b2d6a720>]}
+[0m17:32:51.066378 [info ] [MainThread]: Registered adapter: postgres=1.11.0
+[0m17:32:51.265229 [debug] [MainThread]: checksum: 955ebf9ac31ac299b1961a817dd884946c4dea6d71d4f0ff8cd838d32ca4031c, vars: {}, profile: retailflow, target: dev, version: 1.12.4
+[0m17:32:51.553097 [debug] [MainThread]: Partial parsing enabled: 0 files deleted, 6 files added, 0 files changed.
+[0m17:32:51.554914 [debug] [MainThread]: Partial parsing: added file: retailflow_transform://models/staging/stg_products.sql
+[0m17:32:51.556048 [debug] [MainThread]: Partial parsing: added file: retailflow_transform://models/staging/stg_orders.sql
+[0m17:32:51.557402 [debug] [MainThread]: Partial parsing: added file: retailflow_transform://models/staging/stg_inventory.sql
+[0m17:32:51.558368 [debug] [MainThread]: Partial parsing: added file: retailflow_transform://models/staging/stg_locations.sql
+[0m17:32:51.559330 [debug] [MainThread]: Partial parsing: added file: retailflow_transform://models/staging/stg_dates.sql
+[0m17:32:51.560229 [debug] [MainThread]: Partial parsing: added file: retailflow_transform://models/staging/stg_order_items.sql
+[0m17:32:52.879403 [warn ] [MainThread]: [[33mWARNING[0m]: Configuration paths exist in your dbt_project.yml file which do not apply to any resources.
+There are 1 unused configuration paths:
+- models.retailflow_transform.marts
+[0m17:32:52.894851 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'load_project', 'label': '37c230dc-2e80-416a-978e-8e3b1b83afb0', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7e94b1b67710>]}
+[0m17:32:53.231444 [debug] [MainThread]: Wrote artifact WritableManifest to /home/dkb/ecommerce/transform/target/manifest.json
+[0m17:32:53.239625 [debug] [MainThread]: Wrote artifact SemanticManifest to /home/dkb/ecommerce/transform/target/semantic_manifest.json
+[0m17:32:53.284472 [debug] [MainThread]: Wrote artifact OsiDocument to /home/dkb/ecommerce/transform/target/osi_document.json
+[0m17:32:53.313718 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'resource_counts', 'label': '37c230dc-2e80-416a-978e-8e3b1b83afb0', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7e94b27f7440>]}
+[0m17:32:53.314922 [info ] [MainThread]: Found 7 models, 10 sources, 478 macros
+[0m17:32:53.315988 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': '37c230dc-2e80-416a-978e-8e3b1b83afb0', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7e94b2760e30>]}
+[0m17:32:53.320764 [info ] [MainThread]: 
+[0m17:32:53.321993 [info ] [MainThread]: Concurrency: 4 threads (target='dev')
+[0m17:32:53.322905 [info ] [MainThread]: 
+[0m17:32:53.324892 [debug] [MainThread]: Acquiring new postgres connection 'master'
+[0m17:32:53.347726 [debug] [ThreadPool]: Acquiring new postgres connection 'list_retailflow'
+[0m17:32:53.449039 [debug] [ThreadPool]: Using postgres connection "list_retailflow"
+[0m17:32:53.450566 [debug] [ThreadPool]: On list_retailflow: /* {"app": "dbt", "dbt_version": "1.12.4", "profile_name": "retailflow", "target_name": "dev", "connection_name": "list_retailflow"} */
+
+    select distinct nspname from pg_namespace
+  
+[0m17:32:53.451887 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m17:32:53.476620 [debug] [ThreadPool]: SQL status: SELECT 6 in 0.025 seconds
+[0m17:32:53.481817 [debug] [ThreadPool]: On list_retailflow: Close
+[0m17:32:53.487341 [debug] [ThreadPool]: Re-using an available connection from the pool (formerly list_retailflow, now list_retailflow_staging)
+[0m17:32:53.500401 [debug] [ThreadPool]: Using postgres connection "list_retailflow_staging"
+[0m17:32:53.501477 [debug] [ThreadPool]: On list_retailflow_staging: /* {"app": "dbt", "dbt_version": "1.12.4", "profile_name": "retailflow", "target_name": "dev", "connection_name": "list_retailflow_staging"} */
+select
+      'retailflow' as database,
+      tablename as name,
+      schemaname as schema,
+      'table' as type
+    from pg_tables
+    where schemaname ilike 'staging'
+    union all
+    select
+      'retailflow' as database,
+      viewname as name,
+      schemaname as schema,
+      'view' as type
+    from pg_views
+    where schemaname ilike 'staging'
+    union all
+    select
+      'retailflow' as database,
+      matviewname as name,
+      schemaname as schema,
+      'materialized_view' as type
+    from pg_matviews
+    where schemaname ilike 'staging'
+    union all
+    select distinct
+     'retailflow' as database,
+     proname as name,
+     ns.nspname as schema,
+     'function' as type
+    from pg_proc
+     join pg_namespace as ns on pronamespace = ns.oid
+    where ns.nspname ilike 'staging'
+  
+[0m17:32:53.502353 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m17:32:53.538062 [debug] [ThreadPool]: SQL status: SELECT 1 in 0.036 seconds
+[0m17:32:53.541491 [debug] [ThreadPool]: On list_retailflow_staging: ROLLBACK
+[0m17:32:53.543468 [debug] [ThreadPool]: On list_retailflow_staging: Close
+[0m17:32:53.553973 [debug] [MainThread]: Using postgres connection "master"
+[0m17:32:53.555074 [debug] [MainThread]: On master: /* {"app": "dbt", "dbt_version": "1.12.4", "profile_name": "retailflow", "target_name": "dev", "connection_name": "master"} */
+select distinct
+        dependent_namespace.nspname as dependent_schema,
+        dependent_class.relname as dependent_name,
+        referenced_namespace.nspname as referenced_schema,
+        referenced_class.relname as referenced_name
+
+    -- Query for views: views are entries in pg_class with an entry in pg_rewrite, but we avoid
+    -- a seq scan on pg_rewrite by leveraging the fact there is an "internal" row in pg_depend for
+    -- the view...
+    from pg_class as dependent_class
+    join pg_namespace as dependent_namespace on dependent_namespace.oid = dependent_class.relnamespace
+    join pg_depend as dependent_depend on dependent_depend.refobjid = dependent_class.oid
+        and dependent_depend.classid = 'pg_rewrite'::regclass
+        and dependent_depend.refclassid = 'pg_class'::regclass
+        and dependent_depend.deptype = 'i'
+
+    -- ... and via pg_depend (that has a row per column, hence the need for "distinct" above, and
+    -- making sure to exclude the internal row to avoid a view appearing to depend on itself)...
+    join pg_depend as joining_depend on joining_depend.objid = dependent_depend.objid
+        and joining_depend.classid = 'pg_rewrite'::regclass
+        and joining_depend.refclassid = 'pg_class'::regclass
+        and joining_depend.refobjid != dependent_depend.refobjid
+
+    -- ... we can find the tables they query from in pg_class, but excluding system tables. Note we
+    -- don't need need to exclude _dependent_ system tables, because they only query from other
+    -- system tables, and so are automatically excluded by excluding _referenced_ system tables
+    join pg_class as referenced_class on referenced_class.oid = joining_depend.refobjid
+    join pg_namespace as referenced_namespace on referenced_namespace.oid = referenced_class.relnamespace
+        and referenced_namespace.nspname != 'information_schema'
+        and referenced_namespace.nspname not like 'pg\_%'
+
+    order by
+        dependent_schema, dependent_name, referenced_schema, referenced_name;
+[0m17:32:53.556000 [debug] [MainThread]: Opening a new connection, currently in state init
+[0m17:32:53.583720 [debug] [MainThread]: SQL status: SELECT 1 in 0.028 seconds
+[0m17:32:53.587759 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': '37c230dc-2e80-416a-978e-8e3b1b83afb0', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7e94b5d54140>]}
+[0m17:32:53.589038 [debug] [MainThread]: On master: ROLLBACK
+[0m17:32:53.591020 [debug] [MainThread]: On master: COMMIT
+[0m17:32:53.592044 [debug] [MainThread]: Using postgres connection "master"
+[0m17:32:53.592951 [debug] [MainThread]: On master: COMMIT
+[0m17:32:53.595496 [debug] [MainThread]: SQL status: COMMIT in 0.002 seconds
+[0m17:32:53.596913 [debug] [MainThread]: On master: Close
+[0m17:32:53.606920 [debug] [Thread-1 (]: Began running node model.retailflow_transform.stg_customers
+[0m17:32:53.608224 [debug] [Thread-2 (]: Began running node model.retailflow_transform.stg_dates
+[0m17:32:53.610895 [debug] [Thread-3 (]: Began running node model.retailflow_transform.stg_inventory
+[0m17:32:53.609662 [info ] [Thread-1 (]: 1 of 7 START sql view model staging.stg_customers .............................. [RUN]
+[0m17:32:53.613410 [debug] [Thread-4 (]: Began running node model.retailflow_transform.stg_locations
+[0m17:32:53.614861 [info ] [Thread-2 (]: 2 of 7 START sql view model staging.stg_dates .................................. [RUN]
+[0m17:32:53.616791 [info ] [Thread-3 (]: 3 of 7 START sql view model staging.stg_inventory .............................. [RUN]
+[0m17:32:53.618914 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly list_retailflow_staging, now model.retailflow_transform.stg_customers)
+[0m17:32:53.621258 [info ] [Thread-4 (]: 4 of 7 START sql view model staging.stg_locations .............................. [RUN]
+[0m17:32:53.623974 [debug] [Thread-2 (]: Acquiring new postgres connection 'model.retailflow_transform.stg_dates'
+[0m17:32:53.626389 [debug] [Thread-3 (]: Acquiring new postgres connection 'model.retailflow_transform.stg_inventory'
+[0m17:32:53.628309 [debug] [Thread-1 (]: Began compiling node model.retailflow_transform.stg_customers
+[0m17:32:53.630630 [debug] [Thread-4 (]: Acquiring new postgres connection 'model.retailflow_transform.stg_locations'
+[0m17:32:53.632177 [debug] [Thread-2 (]: Began compiling node model.retailflow_transform.stg_dates
+[0m17:32:53.634034 [debug] [Thread-3 (]: Began compiling node model.retailflow_transform.stg_inventory
+[0m17:32:53.647132 [debug] [Thread-4 (]: Began compiling node model.retailflow_transform.stg_locations
+[0m17:32:53.663889 [debug] [Thread-1 (]: Writing injected SQL for node "model.retailflow_transform.stg_customers"
+[0m17:32:53.668633 [debug] [Thread-2 (]: Writing injected SQL for node "model.retailflow_transform.stg_dates"
+[0m17:32:53.673584 [debug] [Thread-3 (]: Writing injected SQL for node "model.retailflow_transform.stg_inventory"
+[0m17:32:53.681013 [debug] [Thread-4 (]: Writing injected SQL for node "model.retailflow_transform.stg_locations"
+[0m17:32:53.685223 [debug] [Thread-1 (]: Began executing node model.retailflow_transform.stg_customers
+[0m17:32:53.693761 [debug] [Thread-4 (]: Began executing node model.retailflow_transform.stg_locations
+[0m17:32:53.710838 [debug] [Thread-2 (]: Began executing node model.retailflow_transform.stg_dates
+[0m17:32:53.747244 [debug] [Thread-3 (]: Began executing node model.retailflow_transform.stg_inventory
+[0m17:32:53.933500 [debug] [Thread-4 (]: Writing runtime sql for node "model.retailflow_transform.stg_locations"
+[0m17:32:53.946948 [debug] [Thread-1 (]: Writing runtime sql for node "model.retailflow_transform.stg_customers"
+[0m17:32:53.963030 [debug] [Thread-2 (]: Writing runtime sql for node "model.retailflow_transform.stg_dates"
+[0m17:32:53.964446 [debug] [Thread-3 (]: Writing runtime sql for node "model.retailflow_transform.stg_inventory"
+[0m17:32:53.972762 [debug] [Thread-3 (]: Using postgres connection "model.retailflow_transform.stg_inventory"
+[0m17:32:53.970098 [debug] [Thread-1 (]: Using postgres connection "model.retailflow_transform.stg_customers"
+[0m17:32:53.974132 [debug] [Thread-3 (]: On model.retailflow_transform.stg_inventory: /* {"app": "dbt", "dbt_version": "1.12.4", "profile_name": "retailflow", "target_name": "dev", "node_id": "model.retailflow_transform.stg_inventory"} */
+
+  create view "retailflow"."staging"."stg_inventory__dbt_tmp"
+    
+    
+  as (
+    select
+    inventory_key,
+    inventory_id,
+    product_key,
+    warehouse_key,
+    date_key,
+    stock_quantity
+from "retailflow"."dwh"."fact_inventory"
+  );
+[0m17:32:53.978667 [debug] [Thread-3 (]: Opening a new connection, currently in state init
+[0m17:32:53.975490 [debug] [Thread-2 (]: Using postgres connection "model.retailflow_transform.stg_dates"
+[0m17:32:53.976920 [debug] [Thread-1 (]: On model.retailflow_transform.stg_customers: /* {"app": "dbt", "dbt_version": "1.12.4", "profile_name": "retailflow", "target_name": "dev", "node_id": "model.retailflow_transform.stg_customers"} */
+
+  create view "retailflow"."staging"."stg_customers__dbt_tmp"
+    
+    
+  as (
+    select
+    customer_key,
+    customer_id,
+    first_name,
+    last_name,
+    email,
+    country,
+    city,
+    signup_date,
+    customer_segment
+from "retailflow"."dwh"."dim_customer"
+  );
+[0m17:32:53.967863 [debug] [Thread-4 (]: Using postgres connection "model.retailflow_transform.stg_locations"
+[0m17:32:53.980670 [debug] [Thread-2 (]: On model.retailflow_transform.stg_dates: /* {"app": "dbt", "dbt_version": "1.12.4", "profile_name": "retailflow", "target_name": "dev", "node_id": "model.retailflow_transform.stg_dates"} */
+
+  create view "retailflow"."staging"."stg_dates__dbt_tmp"
+    
+    
+  as (
+    select
+    date_key,
+    full_date,
+    year,
+    quarter,
+    month,
+    month_name,
+    day,
+    day_of_week,
+    day_name,
+    is_weekend
+from "retailflow"."dwh"."dim_date"
+  );
+[0m17:32:53.982465 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m17:32:53.984034 [debug] [Thread-4 (]: On model.retailflow_transform.stg_locations: /* {"app": "dbt", "dbt_version": "1.12.4", "profile_name": "retailflow", "target_name": "dev", "node_id": "model.retailflow_transform.stg_locations"} */
+
+  create view "retailflow"."staging"."stg_locations__dbt_tmp"
+    
+    
+  as (
+    select
+    location_key,
+    country
+from "retailflow"."dwh"."dim_location"
+  );
+[0m17:32:53.985445 [debug] [Thread-2 (]: Opening a new connection, currently in state init
+[0m17:32:53.988359 [debug] [Thread-4 (]: Opening a new connection, currently in state init
+[0m17:32:54.005760 [debug] [Thread-3 (]: SQL status: CREATE VIEW in 0.027 seconds
+[0m17:32:54.036535 [debug] [Thread-1 (]: SQL status: CREATE VIEW in 0.054 seconds
+[0m17:32:54.043574 [debug] [Thread-4 (]: SQL status: CREATE VIEW in 0.055 seconds
+[0m17:32:54.044495 [debug] [Thread-1 (]: Using postgres connection "model.retailflow_transform.stg_customers"
+[0m17:32:54.045944 [debug] [Thread-2 (]: SQL status: CREATE VIEW in 0.060 seconds
+[0m17:32:54.035126 [debug] [Thread-3 (]: Using postgres connection "model.retailflow_transform.stg_inventory"
+[0m17:32:54.053934 [debug] [Thread-1 (]: On model.retailflow_transform.stg_customers: /* {"app": "dbt", "dbt_version": "1.12.4", "profile_name": "retailflow", "target_name": "dev", "node_id": "model.retailflow_transform.stg_customers"} */
+alter table "retailflow"."staging"."stg_customers" rename to "stg_customers__dbt_backup"
+[0m17:32:54.052552 [debug] [Thread-4 (]: Using postgres connection "model.retailflow_transform.stg_locations"
+[0m17:32:54.061358 [debug] [Thread-2 (]: Using postgres connection "model.retailflow_transform.stg_dates"
+[0m17:32:54.063956 [debug] [Thread-3 (]: On model.retailflow_transform.stg_inventory: /* {"app": "dbt", "dbt_version": "1.12.4", "profile_name": "retailflow", "target_name": "dev", "node_id": "model.retailflow_transform.stg_inventory"} */
+alter table "retailflow"."staging"."stg_inventory__dbt_tmp" rename to "stg_inventory"
+[0m17:32:54.069592 [debug] [Thread-1 (]: SQL status: ALTER TABLE in 0.004 seconds
+[0m17:32:54.067809 [debug] [Thread-2 (]: On model.retailflow_transform.stg_dates: /* {"app": "dbt", "dbt_version": "1.12.4", "profile_name": "retailflow", "target_name": "dev", "node_id": "model.retailflow_transform.stg_dates"} */
+alter table "retailflow"."staging"."stg_dates__dbt_tmp" rename to "stg_dates"
+[0m17:32:54.066277 [debug] [Thread-4 (]: On model.retailflow_transform.stg_locations: /* {"app": "dbt", "dbt_version": "1.12.4", "profile_name": "retailflow", "target_name": "dev", "node_id": "model.retailflow_transform.stg_locations"} */
+alter table "retailflow"."staging"."stg_locations__dbt_tmp" rename to "stg_locations"
+[0m17:32:54.078188 [debug] [Thread-1 (]: Using postgres connection "model.retailflow_transform.stg_customers"
+[0m17:32:54.082017 [debug] [Thread-3 (]: SQL status: ALTER TABLE in 0.013 seconds
+[0m17:32:54.085488 [debug] [Thread-4 (]: SQL status: ALTER TABLE in 0.005 seconds
+[0m17:32:54.083799 [debug] [Thread-1 (]: On model.retailflow_transform.stg_customers: /* {"app": "dbt", "dbt_version": "1.12.4", "profile_name": "retailflow", "target_name": "dev", "node_id": "model.retailflow_transform.stg_customers"} */
+alter table "retailflow"."staging"."stg_customers__dbt_tmp" rename to "stg_customers"
+[0m17:32:54.086893 [debug] [Thread-2 (]: SQL status: ALTER TABLE in 0.007 seconds
+[0m17:32:54.180986 [debug] [Thread-1 (]: SQL status: ALTER TABLE in 0.039 seconds
+[0m17:32:54.188432 [debug] [Thread-2 (]: On model.retailflow_transform.stg_dates: COMMIT
+[0m17:32:54.197789 [debug] [Thread-3 (]: On model.retailflow_transform.stg_inventory: COMMIT
+[0m17:32:54.214515 [debug] [Thread-1 (]: On model.retailflow_transform.stg_customers: COMMIT
+[0m17:32:54.227698 [debug] [Thread-2 (]: Using postgres connection "model.retailflow_transform.stg_dates"
+[0m17:32:54.229052 [debug] [Thread-4 (]: On model.retailflow_transform.stg_locations: COMMIT
+[0m17:32:54.230745 [debug] [Thread-3 (]: Using postgres connection "model.retailflow_transform.stg_inventory"
+[0m17:32:54.232044 [debug] [Thread-1 (]: Using postgres connection "model.retailflow_transform.stg_customers"
+[0m17:32:54.233530 [debug] [Thread-2 (]: On model.retailflow_transform.stg_dates: COMMIT
+[0m17:32:54.235288 [debug] [Thread-4 (]: Using postgres connection "model.retailflow_transform.stg_locations"
+[0m17:32:54.236709 [debug] [Thread-3 (]: On model.retailflow_transform.stg_inventory: COMMIT
+[0m17:32:54.238382 [debug] [Thread-1 (]: On model.retailflow_transform.stg_customers: COMMIT
+[0m17:32:54.240945 [debug] [Thread-4 (]: On model.retailflow_transform.stg_locations: COMMIT
+[0m17:32:54.248693 [debug] [Thread-2 (]: SQL status: COMMIT in 0.008 seconds
+[0m17:32:54.262734 [debug] [Thread-1 (]: SQL status: COMMIT in 0.019 seconds
+[0m17:32:54.264618 [debug] [Thread-4 (]: SQL status: COMMIT in 0.021 seconds
+[0m17:32:54.275401 [debug] [Thread-3 (]: SQL status: COMMIT in 0.032 seconds
+[0m17:32:54.280285 [debug] [Thread-2 (]: Applying DROP to: "retailflow"."staging"."stg_dates__dbt_backup"
+[0m17:32:54.287104 [debug] [Thread-1 (]: Applying DROP to: "retailflow"."staging"."stg_customers__dbt_backup"
+[0m17:32:54.300222 [debug] [Thread-4 (]: Applying DROP to: "retailflow"."staging"."stg_locations__dbt_backup"
+[0m17:32:54.299187 [debug] [Thread-3 (]: Applying DROP to: "retailflow"."staging"."stg_inventory__dbt_backup"
+[0m17:32:54.346597 [debug] [Thread-3 (]: Using postgres connection "model.retailflow_transform.stg_inventory"
+[0m17:32:54.340980 [debug] [Thread-1 (]: Using postgres connection "model.retailflow_transform.stg_customers"
+[0m17:32:54.344213 [debug] [Thread-4 (]: Using postgres connection "model.retailflow_transform.stg_locations"
+[0m17:32:54.347716 [debug] [Thread-3 (]: On model.retailflow_transform.stg_inventory: /* {"app": "dbt", "dbt_version": "1.12.4", "profile_name": "retailflow", "target_name": "dev", "node_id": "model.retailflow_transform.stg_inventory"} */
+drop view if exists "retailflow"."staging"."stg_inventory__dbt_backup" cascade
+[0m17:32:54.339466 [debug] [Thread-2 (]: Using postgres connection "model.retailflow_transform.stg_dates"
+[0m17:32:54.353749 [debug] [Thread-2 (]: On model.retailflow_transform.stg_dates: /* {"app": "dbt", "dbt_version": "1.12.4", "profile_name": "retailflow", "target_name": "dev", "node_id": "model.retailflow_transform.stg_dates"} */
+drop view if exists "retailflow"."staging"."stg_dates__dbt_backup" cascade
+[0m17:32:54.349135 [debug] [Thread-1 (]: On model.retailflow_transform.stg_customers: /* {"app": "dbt", "dbt_version": "1.12.4", "profile_name": "retailflow", "target_name": "dev", "node_id": "model.retailflow_transform.stg_customers"} */
+drop view if exists "retailflow"."staging"."stg_customers__dbt_backup" cascade
+[0m17:32:54.355450 [debug] [Thread-3 (]: SQL status: DROP VIEW in 0.002 seconds
+[0m17:32:54.351234 [debug] [Thread-4 (]: On model.retailflow_transform.stg_locations: /* {"app": "dbt", "dbt_version": "1.12.4", "profile_name": "retailflow", "target_name": "dev", "node_id": "model.retailflow_transform.stg_locations"} */
+drop view if exists "retailflow"."staging"."stg_locations__dbt_backup" cascade
+[0m17:32:54.358390 [debug] [Thread-2 (]: SQL status: DROP VIEW in 0.001 seconds
+[0m17:32:54.368058 [debug] [Thread-3 (]: On model.retailflow_transform.stg_inventory: Close
+[0m17:32:54.374419 [debug] [Thread-1 (]: SQL status: DROP VIEW in 0.017 seconds
+[0m17:32:54.379617 [debug] [Thread-2 (]: On model.retailflow_transform.stg_dates: Close
+[0m17:32:54.381411 [debug] [Thread-4 (]: SQL status: DROP VIEW in 0.005 seconds
+[0m17:32:54.387623 [debug] [Thread-1 (]: On model.retailflow_transform.stg_customers: Close
+[0m17:32:54.406625 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '37c230dc-2e80-416a-978e-8e3b1b83afb0', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7e94b01ed1c0>]}
+[0m17:32:54.394817 [debug] [Thread-3 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '37c230dc-2e80-416a-978e-8e3b1b83afb0', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7e94b5e53950>]}
+[0m17:32:54.398267 [debug] [Thread-2 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '37c230dc-2e80-416a-978e-8e3b1b83afb0', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7e94aad79c10>]}
+[0m17:32:54.417401 [info ] [Thread-2 (]: 2 of 7 OK created sql view model staging.stg_dates ............................. [[32mCREATE VIEW[0m in 0.77s]
+[0m17:32:54.409164 [info ] [Thread-1 (]: 1 of 7 OK created sql view model staging.stg_customers ......................... [[32mCREATE VIEW[0m in 0.79s]
+[0m17:32:54.419965 [debug] [Thread-2 (]: Finished running node model.retailflow_transform.stg_dates
+[0m17:32:54.426573 [debug] [Thread-2 (]: Began running node model.retailflow_transform.stg_order_items
+[0m17:32:54.404319 [debug] [Thread-4 (]: On model.retailflow_transform.stg_locations: Close
+[0m17:32:54.424550 [debug] [Thread-1 (]: Finished running node model.retailflow_transform.stg_customers
+[0m17:32:54.434524 [debug] [Thread-1 (]: Began running node model.retailflow_transform.stg_orders
+[0m17:32:54.428895 [info ] [Thread-2 (]: 5 of 7 START sql view model staging.stg_order_items ............................ [RUN]
+[0m17:32:54.421804 [info ] [Thread-3 (]: 3 of 7 OK created sql view model staging.stg_inventory ......................... [[32mCREATE VIEW[0m in 0.76s]
+[0m17:32:54.451070 [debug] [Thread-3 (]: Finished running node model.retailflow_transform.stg_inventory
+[0m17:32:54.436688 [info ] [Thread-1 (]: 6 of 7 START sql view model staging.stg_orders ................................. [RUN]
+[0m17:32:54.445332 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly model.retailflow_transform.stg_dates, now model.retailflow_transform.stg_order_items)
+[0m17:32:54.442701 [debug] [Thread-4 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '37c230dc-2e80-416a-978e-8e3b1b83afb0', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7e94aad7a0f0>]}
+[0m17:32:54.469120 [info ] [Thread-4 (]: 4 of 7 OK created sql view model staging.stg_locations ......................... [[32mCREATE VIEW[0m in 0.81s]
+[0m17:32:54.464293 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly model.retailflow_transform.stg_customers, now model.retailflow_transform.stg_orders)
+[0m17:32:54.471805 [debug] [Thread-4 (]: Finished running node model.retailflow_transform.stg_locations
+[0m17:32:54.452995 [debug] [Thread-3 (]: Began running node model.retailflow_transform.stg_products
+[0m17:32:54.482892 [info ] [Thread-3 (]: 7 of 7 START sql view model staging.stg_products ............................... [RUN]
+[0m17:32:54.475779 [debug] [Thread-1 (]: Began compiling node model.retailflow_transform.stg_orders
+[0m17:32:54.466720 [debug] [Thread-2 (]: Began compiling node model.retailflow_transform.stg_order_items
+[0m17:32:54.485620 [debug] [Thread-3 (]: Re-using an available connection from the pool (formerly model.retailflow_transform.stg_inventory, now model.retailflow_transform.stg_products)
+[0m17:32:54.503604 [debug] [Thread-3 (]: Began compiling node model.retailflow_transform.stg_products
+[0m17:32:54.501493 [debug] [Thread-2 (]: Writing injected SQL for node "model.retailflow_transform.stg_order_items"
+[0m17:32:54.514571 [debug] [Thread-2 (]: Began executing node model.retailflow_transform.stg_order_items
+[0m17:32:54.499521 [debug] [Thread-1 (]: Writing injected SQL for node "model.retailflow_transform.stg_orders"
+[0m17:32:54.512184 [debug] [Thread-3 (]: Writing injected SQL for node "model.retailflow_transform.stg_products"
+[0m17:32:54.526023 [debug] [Thread-1 (]: Began executing node model.retailflow_transform.stg_orders
+[0m17:32:54.535618 [debug] [Thread-2 (]: Writing runtime sql for node "model.retailflow_transform.stg_order_items"
+[0m17:32:54.550472 [debug] [Thread-3 (]: Began executing node model.retailflow_transform.stg_products
+[0m17:32:54.566747 [debug] [Thread-3 (]: Writing runtime sql for node "model.retailflow_transform.stg_products"
+[0m17:32:54.575397 [debug] [Thread-3 (]: Using postgres connection "model.retailflow_transform.stg_products"
+[0m17:32:54.572805 [debug] [Thread-2 (]: Using postgres connection "model.retailflow_transform.stg_order_items"
+[0m17:32:54.570653 [debug] [Thread-1 (]: Writing runtime sql for node "model.retailflow_transform.stg_orders"
+[0m17:32:54.587220 [debug] [Thread-1 (]: Using postgres connection "model.retailflow_transform.stg_orders"
+[0m17:32:54.580333 [debug] [Thread-3 (]: On model.retailflow_transform.stg_products: /* {"app": "dbt", "dbt_version": "1.12.4", "profile_name": "retailflow", "target_name": "dev", "node_id": "model.retailflow_transform.stg_products"} */
+
+  create view "retailflow"."staging"."stg_products__dbt_tmp"
+    
+    
+  as (
+    select
+    product_key,
+    product_id,
+    product_name,
+    category_id,
+    category_name,
+    brand,
+    unit_cost,
+    unit_price,
+    stock_threshold
+from "retailflow"."dwh"."dim_product"
+  );
+[0m17:32:54.591723 [debug] [Thread-3 (]: Opening a new connection, currently in state closed
+[0m17:32:54.588988 [debug] [Thread-1 (]: On model.retailflow_transform.stg_orders: /* {"app": "dbt", "dbt_version": "1.12.4", "profile_name": "retailflow", "target_name": "dev", "node_id": "model.retailflow_transform.stg_orders"} */
+
+  create view "retailflow"."staging"."stg_orders__dbt_tmp"
+    
+    
+  as (
+    select
+    order_key,
+    order_id,
+    customer_key,
+    date_key,
+    location_key,
+    order_status,
+    payment_method,
+    total_amount
+from "retailflow"."dwh"."fact_orders"
+  );
+[0m17:32:54.584331 [debug] [Thread-2 (]: On model.retailflow_transform.stg_order_items: /* {"app": "dbt", "dbt_version": "1.12.4", "profile_name": "retailflow", "target_name": "dev", "node_id": "model.retailflow_transform.stg_order_items"} */
+
+  create view "retailflow"."staging"."stg_order_items__dbt_tmp"
+    
+    
+  as (
+    select
+    order_item_key,
+    order_item_id,
+    order_id,
+    product_key,
+    customer_key,
+    date_key,
+    quantity,
+    unit_price,
+    discount
+from "retailflow"."dwh"."fact_order_items"
+  );
+[0m17:32:54.596704 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m17:32:54.598963 [debug] [Thread-2 (]: Opening a new connection, currently in state closed
+[0m17:32:54.638099 [debug] [Thread-3 (]: SQL status: CREATE VIEW in 0.046 seconds
+[0m17:32:54.656485 [debug] [Thread-3 (]: Using postgres connection "model.retailflow_transform.stg_products"
+[0m17:32:54.658138 [debug] [Thread-1 (]: SQL status: CREATE VIEW in 0.062 seconds
+[0m17:32:54.659550 [debug] [Thread-2 (]: SQL status: CREATE VIEW in 0.061 seconds
+[0m17:32:54.661015 [debug] [Thread-3 (]: On model.retailflow_transform.stg_products: /* {"app": "dbt", "dbt_version": "1.12.4", "profile_name": "retailflow", "target_name": "dev", "node_id": "model.retailflow_transform.stg_products"} */
+alter table "retailflow"."staging"."stg_products__dbt_tmp" rename to "stg_products"
+[0m17:32:54.669569 [debug] [Thread-1 (]: Using postgres connection "model.retailflow_transform.stg_orders"
+[0m17:32:54.681061 [debug] [Thread-2 (]: Using postgres connection "model.retailflow_transform.stg_order_items"
+[0m17:32:54.685466 [debug] [Thread-3 (]: SQL status: ALTER TABLE in 0.008 seconds
+[0m17:32:54.687459 [debug] [Thread-2 (]: On model.retailflow_transform.stg_order_items: /* {"app": "dbt", "dbt_version": "1.12.4", "profile_name": "retailflow", "target_name": "dev", "node_id": "model.retailflow_transform.stg_order_items"} */
+alter table "retailflow"."staging"."stg_order_items__dbt_tmp" rename to "stg_order_items"
+[0m17:32:54.683581 [debug] [Thread-1 (]: On model.retailflow_transform.stg_orders: /* {"app": "dbt", "dbt_version": "1.12.4", "profile_name": "retailflow", "target_name": "dev", "node_id": "model.retailflow_transform.stg_orders"} */
+alter table "retailflow"."staging"."stg_orders__dbt_tmp" rename to "stg_orders"
+[0m17:32:54.693525 [debug] [Thread-3 (]: On model.retailflow_transform.stg_products: COMMIT
+[0m17:32:54.698343 [debug] [Thread-2 (]: SQL status: ALTER TABLE in 0.002 seconds
+[0m17:32:54.700078 [debug] [Thread-3 (]: Using postgres connection "model.retailflow_transform.stg_products"
+[0m17:32:54.701815 [debug] [Thread-1 (]: SQL status: ALTER TABLE in 0.004 seconds
+[0m17:32:54.707912 [debug] [Thread-2 (]: On model.retailflow_transform.stg_order_items: COMMIT
+[0m17:32:54.710040 [debug] [Thread-3 (]: On model.retailflow_transform.stg_products: COMMIT
+[0m17:32:54.718732 [debug] [Thread-1 (]: On model.retailflow_transform.stg_orders: COMMIT
+[0m17:32:54.722368 [debug] [Thread-2 (]: Using postgres connection "model.retailflow_transform.stg_order_items"
+[0m17:32:54.724757 [debug] [Thread-1 (]: Using postgres connection "model.retailflow_transform.stg_orders"
+[0m17:32:54.730166 [debug] [Thread-1 (]: On model.retailflow_transform.stg_orders: COMMIT
+[0m17:32:54.726457 [debug] [Thread-2 (]: On model.retailflow_transform.stg_order_items: COMMIT
+[0m17:32:54.731719 [debug] [Thread-3 (]: SQL status: COMMIT in 0.008 seconds
+[0m17:32:54.738296 [debug] [Thread-3 (]: Applying DROP to: "retailflow"."staging"."stg_products__dbt_backup"
+[0m17:32:54.740882 [debug] [Thread-3 (]: Using postgres connection "model.retailflow_transform.stg_products"
+[0m17:32:54.742447 [debug] [Thread-1 (]: SQL status: COMMIT in 0.009 seconds
+[0m17:32:54.744499 [debug] [Thread-2 (]: SQL status: COMMIT in 0.011 seconds
+[0m17:32:54.746623 [debug] [Thread-3 (]: On model.retailflow_transform.stg_products: /* {"app": "dbt", "dbt_version": "1.12.4", "profile_name": "retailflow", "target_name": "dev", "node_id": "model.retailflow_transform.stg_products"} */
+drop view if exists "retailflow"."staging"."stg_products__dbt_backup" cascade
+[0m17:32:54.752576 [debug] [Thread-1 (]: Applying DROP to: "retailflow"."staging"."stg_orders__dbt_backup"
+[0m17:32:54.759335 [debug] [Thread-2 (]: Applying DROP to: "retailflow"."staging"."stg_order_items__dbt_backup"
+[0m17:32:54.762344 [debug] [Thread-1 (]: Using postgres connection "model.retailflow_transform.stg_orders"
+[0m17:32:54.763899 [debug] [Thread-3 (]: SQL status: DROP VIEW in 0.003 seconds
+[0m17:32:54.766724 [debug] [Thread-2 (]: Using postgres connection "model.retailflow_transform.stg_order_items"
+[0m17:32:54.770956 [debug] [Thread-1 (]: On model.retailflow_transform.stg_orders: /* {"app": "dbt", "dbt_version": "1.12.4", "profile_name": "retailflow", "target_name": "dev", "node_id": "model.retailflow_transform.stg_orders"} */
+drop view if exists "retailflow"."staging"."stg_orders__dbt_backup" cascade
+[0m17:32:54.776474 [debug] [Thread-3 (]: On model.retailflow_transform.stg_products: Close
+[0m17:32:54.780566 [debug] [Thread-3 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '37c230dc-2e80-416a-978e-8e3b1b83afb0', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7e94aad96ab0>]}
+[0m17:32:54.777976 [debug] [Thread-2 (]: On model.retailflow_transform.stg_order_items: /* {"app": "dbt", "dbt_version": "1.12.4", "profile_name": "retailflow", "target_name": "dev", "node_id": "model.retailflow_transform.stg_order_items"} */
+drop view if exists "retailflow"."staging"."stg_order_items__dbt_backup" cascade
+[0m17:32:54.784497 [debug] [Thread-1 (]: SQL status: DROP VIEW in 0.005 seconds
+[0m17:32:54.794692 [debug] [Thread-2 (]: SQL status: DROP VIEW in 0.008 seconds
+[0m17:32:54.783060 [info ] [Thread-3 (]: 7 of 7 OK created sql view model staging.stg_products .......................... [[32mCREATE VIEW[0m in 0.30s]
+[0m17:32:54.797357 [debug] [Thread-1 (]: On model.retailflow_transform.stg_orders: Close
+[0m17:32:54.805023 [debug] [Thread-3 (]: Finished running node model.retailflow_transform.stg_products
+[0m17:32:54.809222 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '37c230dc-2e80-416a-978e-8e3b1b83afb0', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7e94b01a58b0>]}
+[0m17:32:54.802687 [debug] [Thread-2 (]: On model.retailflow_transform.stg_order_items: Close
+[0m17:32:54.812690 [info ] [Thread-1 (]: 6 of 7 OK created sql view model staging.stg_orders ............................ [[32mCREATE VIEW[0m in 0.35s]
+[0m17:32:54.816910 [debug] [Thread-2 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '37c230dc-2e80-416a-978e-8e3b1b83afb0', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7e94aad94080>]}
+[0m17:32:54.820248 [debug] [Thread-1 (]: Finished running node model.retailflow_transform.stg_orders
+[0m17:32:54.828510 [info ] [Thread-2 (]: 5 of 7 OK created sql view model staging.stg_order_items ....................... [[32mCREATE VIEW[0m in 0.37s]
+[0m17:32:54.833963 [debug] [Thread-2 (]: Finished running node model.retailflow_transform.stg_order_items
+[0m17:32:54.845497 [debug] [MainThread]: On master: COMMIT
+[0m17:32:54.847078 [debug] [MainThread]: Using postgres connection "master"
+[0m17:32:54.848552 [debug] [MainThread]: On master: COMMIT
+[0m17:32:54.850090 [debug] [MainThread]: Opening a new connection, currently in state closed
+[0m17:32:54.884519 [debug] [MainThread]: SQL status: COMMIT in 0.034 seconds
+[0m17:32:54.886186 [debug] [MainThread]: On master: Close
+[0m17:32:54.894030 [debug] [MainThread]: Connection 'master' was properly closed.
+[0m17:32:54.897575 [debug] [MainThread]: Connection 'model.retailflow_transform.stg_orders' was properly closed.
+[0m17:32:54.899122 [debug] [MainThread]: Connection 'model.retailflow_transform.stg_order_items' was properly closed.
+[0m17:32:54.900479 [debug] [MainThread]: Connection 'model.retailflow_transform.stg_products' was properly closed.
+[0m17:32:54.903576 [debug] [MainThread]: Connection 'model.retailflow_transform.stg_locations' was properly closed.
+[0m17:32:54.905442 [info ] [MainThread]: 
+[0m17:32:54.907561 [info ] [MainThread]: Finished running 7 view models in 0 hours 0 minutes and 1.58 seconds (1.58s).
+[0m17:32:54.916293 [debug] [MainThread]: Command end result
+[0m17:32:55.057673 [debug] [MainThread]: Wrote artifact WritableManifest to /home/dkb/ecommerce/transform/target/manifest.json
+[0m17:32:55.068108 [debug] [MainThread]: Wrote artifact SemanticManifest to /home/dkb/ecommerce/transform/target/semantic_manifest.json
+[0m17:32:55.078781 [debug] [MainThread]: Wrote artifact OsiDocument to /home/dkb/ecommerce/transform/target/osi_document.json
+[0m17:32:55.106952 [debug] [MainThread]: Wrote artifact RunExecutionResult to /home/dkb/ecommerce/transform/target/run_results.json
+[0m17:32:55.108322 [info ] [MainThread]: 
+[0m17:32:55.109565 [info ] [MainThread]: [32mCompleted successfully[0m
+[0m17:32:55.110602 [info ] [MainThread]: 
+[0m17:32:55.111793 [info ] [MainThread]: Done. PASS=7 WARN=0 ERROR=0 SKIP=0 NO-OP=0 REUSED=0 TOTAL=7
+[0m17:32:55.114656 [debug] [MainThread]: Resource report: {"command_name": "run", "command_success": true, "command_wall_clock_time": 5.3272367, "process_in_blocks": "0", "process_kernel_time": 0.909649, "process_mem_max_rss": "136280", "process_out_blocks": "3544", "process_user_time": 9.579867}
+[0m17:32:55.116595 [debug] [MainThread]: Command `dbt run` succeeded at 17:32:55.116152 after 5.33 seconds
+[0m17:32:55.118442 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7e94b41fbad0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7e94b2eec5f0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7e94b27aecc0>]}
+[0m17:32:55.120503 [debug] [MainThread]: Flushing usage events
+[0m17:32:55.642649 [debug] [MainThread]: An error was encountered while trying to flush usage events

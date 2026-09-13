@@ -1,0 +1,16 @@
+version: 2
+
+sources:
+  - name: dwh
+    schema: dwh
+    tables:
+      - name: dim_customer
+      - name: dim_product
+      - name: dim_date
+      - name: dim_location
+      - name: dim_warehouse
+      - name: fact_orders
+      - name: fact_order_items
+      - name: fact_payments
+      - name: fact_returns
+      - name: fact_inventory
