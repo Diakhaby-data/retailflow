@@ -1,0 +1,10 @@
+version: 2
+
+models:
+  - name: customer_mart
+    description: "Un client par ligne, avec ses indicateurs de commandes agreges."
+    columns:
+      - name: customer_id
+        tests:
+          - unique
+          - not_null
