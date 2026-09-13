@@ -12,3 +12,6 @@ data/external/*
 !data/external/.gitkeep
 data/quarantine/*
 !data/quarantine/.gitkeep
+transform/target/
+transform/dbt_packages/
+transform/logs/
