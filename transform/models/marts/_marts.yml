@@ -8,3 +8,16 @@ models:
         tests:
           - unique
           - not_null
+
+  - name: sales_mart
+    description: "Chiffre d'affaires agrege par jour, pays et categorie de produit."
+    columns:
+      - name: date
+        tests:
+          - not_null
+      - name: country
+        tests:
+          - not_null
+      - name: category
+        tests:
+          - not_null
