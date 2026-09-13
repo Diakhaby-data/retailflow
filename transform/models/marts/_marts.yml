@@ -21,3 +21,16 @@ models:
       - name: category
         tests:
           - not_null
+
+  - name: inventory_mart
+    description: "Etat des stocks par produit, avec estimation des jours de stock restants."
+    columns:
+      - name: product_id
+        tests:
+          - unique
+          - not_null
+      - name: stock_status
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['ok', 'low_stock', 'out_of_stock']
