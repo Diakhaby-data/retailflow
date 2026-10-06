@@ -1,0 +1,105 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: retailflow-postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "55432:5432"
+    volumes:
+      - retailflow_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.app
+    container_name: retailflow-api
+    command: ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8000"]
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: "5432"
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "8001:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  mock-api:
+    build:
+      context: .
+      dockerfile: Dockerfile.app
+    container_name: retailflow-mock-api
+    command: ["uvicorn", "scripts.mock_products_api:app", "--host", "0.0.0.0", "--port", "8000"]
+    volumes:
+      - ./data/external:/app/data/external:ro
+    ports:
+      - "8002:8000"
+
+  airflow:
+    build:
+      context: .
+      dockerfile: Dockerfile.airflow
+    container_name: retailflow-airflow
+    environment:
+      AIRFLOW_HOME: /home/dkb/ecommerce/airflow
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/airflow
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__LOAD_EXAMPLES: "False"
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - .:/home/dkb/ecommerce
+      - ./.env.docker:/home/dkb/ecommerce/.env
+      - retailflow_project_venv:/home/dkb/ecommerce/venv
+      - retailflow_airflow_venv:/home/dkb/ecommerce/airflow_venv
+    ports:
+      - "8085:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      mock-api:
+        condition: service_started
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: retailflow-prometheus
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - retailflow_prometheus_data:/prometheus
+    ports:
+      - "9090:9090"
+
+  pushgateway:
+    image: prom/pushgateway:latest
+    container_name: retailflow-pushgateway
+    ports:
+      - "9091:9091"
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: retailflow-grafana
+    volumes:
+      - retailflow_grafana_data:/var/lib/grafana
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning:ro
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+
+volumes:
+  retailflow_pgdata:
+    external: true
+  retailflow_project_venv:
+  retailflow_airflow_venv:
+  retailflow_prometheus_data:
+  retailflow_grafana_data:

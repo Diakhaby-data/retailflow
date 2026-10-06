@@ -1,0 +1,78 @@
+{
+  "uid": "retailflow-api-overview",
+  "title": "RetailFlow - API Overview",
+  "timezone": "browser",
+  "schemaVersion": 39,
+  "version": 2,
+  "refresh": "10s",
+  "time": { "from": "now-30m", "to": "now" },
+  "panels": [
+    {
+      "id": 1, "title": "Requetes totales",
+      "type": "stat", "gridPos": { "x": 0, "y": 0, "w": 4, "h": 4 },
+      "datasource": { "type": "prometheus", "uid": "retailflow-prometheus" },
+      "fieldConfig": { "defaults": { "unit": "short", "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] } } },
+      "targets": [{ "datasource": { "type": "prometheus", "uid": "retailflow-prometheus" }, "expr": "sum(increase(http_requests_total{handler!=\"/metrics\"}[$__range]))", "refId": "A" }]
+    },
+    {
+      "id": 2, "title": "CPU (%)",
+      "type": "stat", "gridPos": { "x": 4, "y": 0, "w": 4, "h": 4 },
+      "datasource": { "type": "prometheus", "uid": "retailflow-prometheus" },
+      "fieldConfig": { "defaults": { "unit": "percent", "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }, { "color": "orange", "value": 70 }, { "color": "red", "value": 90 }] } } },
+      "targets": [{ "datasource": { "type": "prometheus", "uid": "retailflow-prometheus" }, "expr": "rate(process_cpu_seconds_total[5m]) * 100", "refId": "A" }]
+    },
+    {
+      "id": 3, "title": "Memoire RAM",
+      "type": "stat", "gridPos": { "x": 8, "y": 0, "w": 4, "h": 4 },
+      "datasource": { "type": "prometheus", "uid": "retailflow-prometheus" },
+      "fieldConfig": { "defaults": { "unit": "decbytes", "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] } } },
+      "targets": [{ "datasource": { "type": "prometheus", "uid": "retailflow-prometheus" }, "expr": "process_resident_memory_bytes", "refId": "A" }]
+    },
+    {
+      "id": 4, "title": "Erreurs HTTP 5xx (5min)",
+      "type": "stat", "gridPos": { "x": 12, "y": 0, "w": 4, "h": 4 },
+      "datasource": { "type": "prometheus", "uid": "retailflow-prometheus" },
+      "fieldConfig": { "defaults": { "unit": "short", "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }, { "color": "red", "value": 1 }] } } },
+      "targets": [{ "datasource": { "type": "prometheus", "uid": "retailflow-prometheus" }, "expr": "sum(increase(http_requests_total{status=\"5xx\"}[5m])) or vector(0)", "refId": "A" }]
+    },
+    {
+      "id": 5, "title": "Latence P95",
+      "type": "stat", "gridPos": { "x": 16, "y": 0, "w": 4, "h": 4 },
+      "datasource": { "type": "prometheus", "uid": "retailflow-prometheus" },
+      "fieldConfig": { "defaults": { "unit": "ms", "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }, { "color": "orange", "value": 300 }, { "color": "red", "value": 800 }] } } },
+      "targets": [{ "datasource": { "type": "prometheus", "uid": "retailflow-prometheus" }, "expr": "histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket{handler!=\"/metrics\"}[5m])) by (le)) * 1000", "refId": "A" }]
+    },
+    {
+      "id": 6, "title": "Uptime process",
+      "type": "stat", "gridPos": { "x": 20, "y": 0, "w": 4, "h": 4 },
+      "datasource": { "type": "prometheus", "uid": "retailflow-prometheus" },
+      "fieldConfig": { "defaults": { "unit": "m", "thresholds": { "mode": "absolute", "steps": [{ "color": "blue", "value": null }] } } },
+      "targets": [{ "datasource": { "type": "prometheus", "uid": "retailflow-prometheus" }, "expr": "(time() - process_start_time_seconds) / 60", "refId": "A" }]
+    },
+    {
+      "id": 7, "title": "Requetes par route (req/s)",
+      "type": "timeseries", "gridPos": { "x": 0, "y": 4, "w": 12, "h": 8 },
+      "datasource": { "type": "prometheus", "uid": "retailflow-prometheus" },
+      "fieldConfig": { "defaults": { "unit": "reqps", "custom": { "drawStyle": "line", "lineWidth": 2, "fillOpacity": 10 } } },
+      "targets": [{ "datasource": { "type": "prometheus", "uid": "retailflow-prometheus" }, "expr": "sum(rate(http_requests_total{handler!=\"/metrics\"}[1m])) by (handler)", "legendFormat": "{{handler}}", "refId": "A" }]
+    },
+    {
+      "id": 8, "title": "Latence P50 / P95 / P99",
+      "type": "timeseries", "gridPos": { "x": 12, "y": 4, "w": 12, "h": 8 },
+      "datasource": { "type": "prometheus", "uid": "retailflow-prometheus" },
+      "fieldConfig": { "defaults": { "unit": "s", "custom": { "drawStyle": "line", "lineWidth": 2, "fillOpacity": 5 } } },
+      "targets": [
+        { "datasource": { "type": "prometheus", "uid": "retailflow-prometheus" }, "expr": "histogram_quantile(0.50, sum(rate(http_request_duration_seconds_bucket{handler!=\"/metrics\"}[5m])) by (le))", "legendFormat": "P50", "refId": "A" },
+        { "datasource": { "type": "prometheus", "uid": "retailflow-prometheus" }, "expr": "histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket{handler!=\"/metrics\"}[5m])) by (le))", "legendFormat": "P95", "refId": "B" },
+        { "datasource": { "type": "prometheus", "uid": "retailflow-prometheus" }, "expr": "histogram_quantile(0.99, sum(rate(http_request_duration_seconds_bucket{handler!=\"/metrics\"}[5m])) by (le))", "legendFormat": "P99", "refId": "C" }
+      ]
+    },
+    {
+      "id": 9, "title": "Top routes par latence moyenne",
+      "type": "table", "gridPos": { "x": 0, "y": 12, "w": 24, "h": 6 },
+      "datasource": { "type": "prometheus", "uid": "retailflow-prometheus" },
+      "fieldConfig": { "defaults": { "unit": "ms" } },
+      "targets": [{ "datasource": { "type": "prometheus", "uid": "retailflow-prometheus" }, "expr": "topk(5, (sum(rate(http_request_duration_seconds_sum{handler!=\"/metrics\"}[5m])) by (handler) / sum(rate(http_request_duration_seconds_count{handler!=\"/metrics\"}[5m])) by (handler)) * 1000)", "format": "table", "instant": true, "refId": "A" }]
+    }
+  ]
+}

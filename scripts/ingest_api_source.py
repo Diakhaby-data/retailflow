@@ -3,14 +3,20 @@ Ingestion de la Source B (API produits/categories).
 Meme logique que les autres sources, mais on interroge une API HTTP
 au lieu de lire un fichier ou une base de donnees.
 """
+import os
 from datetime import date
 from pathlib import Path
 
 import pandas as pd
 import requests
+from dotenv import load_dotenv
+
+from src.monitoring.metrics import push_ingestion_metric
+
+load_dotenv()
 
 RAW_DIR = Path("data/raw")
-API_URL = "http://localhost:8000"
+API_URL = os.getenv("MOCK_API_URL", "http://localhost:8000")
 ENDPOINTS = {
     "products": "/products",
     "categories": "/categories",
@@ -32,6 +38,7 @@ def main():
         df.to_parquet(output_path, index=False)
 
         print(f"{table:12s} -> {len(df):>6,} lignes -> {output_path}")
+        push_ingestion_metric(table, len(df))
 
 
 if __name__ == "__main__":

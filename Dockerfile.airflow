@@ -1,0 +1,36 @@
+FROM python:3.12-slim
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        build-essential libpq-dev postgresql-client curl \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /home/dkb/ecommerce
+
+# venv "projet" : pandas / sqlalchemy / dbt, construit exactement au meme
+# chemin que sur l'hote (/home/dkb/ecommerce/venv), car le DAG y fait
+# reference en dur via PROJECT_DIR. Le contenu final de ce dossier sera
+# masque par un volume nomme au demarrage (voir docker-compose.yml) :
+# ce qui est construit ici sert uniquement a peupler ce volume la
+# premiere fois qu'il est cree.
+COPY requirements.txt requirements.txt
+RUN python -m venv venv \
+    && venv/bin/pip install --no-cache-dir --upgrade pip \
+    && venv/bin/pip install --no-cache-dir -r requirements.txt
+
+# venv "airflow" : isole du venv projet, meme methode d'installation
+# officielle que sur l'hote (fichier de contraintes verrouillant les
+# versions des dependances transitives d'Airflow). Deux drivers Postgres
+# sont necessaires car Airflow 3.x maintient deux moteurs SQLAlchemy vers
+# sa base de metadonnees : psycopg2-binary pour le moteur synchrone
+# (l'ORM classique), asyncpg pour le moteur asynchrone (sa nouvelle API
+# interne basee sur FastAPI/asyncio). SQLite n'avait besoin d'aucun des
+# deux, c'est un module standard de Python.
+RUN python -m venv airflow_venv \
+    && airflow_venv/bin/pip install --no-cache-dir --upgrade pip \
+    && airflow_venv/bin/pip install --no-cache-dir "apache-airflow==3.3.1" psycopg2-binary asyncpg \
+       --constraint "https://raw.githubusercontent.com/apache/airflow/constraints-3.3.1/constraints-3.12.txt"
+
+COPY entrypoint-airflow.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]

@@ -6,6 +6,7 @@ from pathlib import Path
 
 from src.quality.storage import read_latest, write_valid_invalid
 from src.quality.report import print_quality_report
+from src.monitoring.metrics import push_quality_metric
 
 RAW_DIR = Path("data/raw")
 INTERIM_DIR = Path("data/interim")
@@ -47,6 +48,9 @@ def validate_table(table: str, pk_column: str) -> None:
         "Duplicate PK": (~rule_pk_unique).sum(),
     })
     print()
+
+    pass_rate = (valid_count / total * 100) if total else 0.0
+    push_quality_metric(table, pass_rate)
 
 
 def main():

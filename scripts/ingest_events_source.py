@@ -6,6 +6,8 @@ from pathlib import Path
 
 import pandas as pd
 
+from src.monitoring.metrics import push_ingestion_metric
+
 SOURCE_PATH = Path("data/external/events.jsonl")
 RAW_DIR = Path("data/raw")
 
@@ -21,6 +23,7 @@ def main():
     df.to_parquet(output_path, index=False)
 
     print(f"events        -> {len(df):>6,} lignes -> {output_path}")
+    push_ingestion_metric("events", len(df))
 
 
 if __name__ == "__main__":

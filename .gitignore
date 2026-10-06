@@ -19,3 +19,6 @@ logs/
 airflow_venv/
 airflow/*
 !airflow/dags/
+.env.docker
+*.egg-info/
+transform/.user.yml

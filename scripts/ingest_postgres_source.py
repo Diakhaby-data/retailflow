@@ -11,6 +11,8 @@ import pandas as pd
 from dotenv import load_dotenv
 from sqlalchemy import create_engine
 
+from src.monitoring.metrics import push_ingestion_metric
+
 RAW_DIR = Path("data/raw")
 TABLES = ["orders", "order_items", "payments"]
 
@@ -40,6 +42,7 @@ def main():
         df.to_parquet(output_path, index=False)
 
         print(f"{table:12s} -> {len(df):>6,} lignes -> {output_path}")
+        push_ingestion_metric(table, len(df))
 
 
 if __name__ == "__main__":

@@ -8,6 +8,8 @@ from pathlib import Path
 
 import pandas as pd
 
+from src.monitoring.metrics import push_ingestion_metric
+
 SOURCE_DIR = Path("data/external")
 RAW_DIR = Path("data/raw")
 TABLES = ["customers", "returns", "inventory"]
@@ -26,6 +28,7 @@ def main():
         df.to_parquet(output_path, index=False)  # ecriture au format colonnes
 
         print(f"{table:12s} -> {len(df):>6,} lignes -> {output_path}")
+        push_ingestion_metric(table, len(df))
 
 
 if __name__ == "__main__":

@@ -1,0 +1,46 @@
+{
+  "uid": "retailflow-pipeline-overview",
+  "title": "RetailFlow - Pipeline Overview",
+  "timezone": "browser",
+  "schemaVersion": 39,
+  "version": 2,
+  "refresh": "30s",
+  "time": { "from": "now-7d", "to": "now" },
+  "panels": [
+    {
+      "id": 1, "title": "Temps depuis dernier succes",
+      "type": "stat", "gridPos": { "x": 0, "y": 0, "w": 8, "h": 4 },
+      "datasource": { "type": "prometheus", "uid": "retailflow-prometheus" },
+      "fieldConfig": { "defaults": { "unit": "m", "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }, { "color": "orange", "value": 1500 }, { "color": "red", "value": 2000 }] } } },
+      "targets": [{ "datasource": { "type": "prometheus", "uid": "retailflow-prometheus" }, "expr": "(time() - retailflow_last_success_timestamp{stage=\"final\"}) / 60", "refId": "A" }]
+    },
+    {
+      "id": 2, "title": "Tests dbt reussis",
+      "type": "stat", "gridPos": { "x": 8, "y": 0, "w": 8, "h": 4 },
+      "datasource": { "type": "prometheus", "uid": "retailflow-prometheus" },
+      "fieldConfig": { "defaults": { "unit": "short", "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] } } },
+      "targets": [{ "datasource": { "type": "prometheus", "uid": "retailflow-prometheus" }, "expr": "retailflow_dbt_tests_passed{stage=\"dbt_test\"}", "refId": "A" }]
+    },
+    {
+      "id": 3, "title": "Tests dbt echoues",
+      "type": "stat", "gridPos": { "x": 16, "y": 0, "w": 8, "h": 4 },
+      "datasource": { "type": "prometheus", "uid": "retailflow-prometheus" },
+      "fieldConfig": { "defaults": { "unit": "short", "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }, { "color": "red", "value": 1 }] } } },
+      "targets": [{ "datasource": { "type": "prometheus", "uid": "retailflow-prometheus" }, "expr": "retailflow_dbt_tests_failed{stage=\"dbt_test\"}", "refId": "A" }]
+    },
+    {
+      "id": 4, "title": "Lignes ingerees par table (dernier run)",
+      "type": "bargauge", "gridPos": { "x": 0, "y": 4, "w": 24, "h": 8 },
+      "datasource": { "type": "prometheus", "uid": "retailflow-prometheus" },
+      "fieldConfig": { "defaults": { "unit": "short", "thresholds": { "mode": "absolute", "steps": [{ "color": "blue", "value": null }] } } },
+      "targets": [{ "datasource": { "type": "prometheus", "uid": "retailflow-prometheus" }, "expr": "retailflow_rows_ingested", "legendFormat": "{{table}}", "refId": "A" }]
+    },
+    {
+      "id": 5, "title": "Taux de qualite par table (%)",
+      "type": "bargauge", "gridPos": { "x": 0, "y": 12, "w": 24, "h": 8 },
+      "datasource": { "type": "prometheus", "uid": "retailflow-prometheus" },
+      "fieldConfig": { "defaults": { "unit": "percent", "min": 0, "max": 100, "thresholds": { "mode": "absolute", "steps": [{ "color": "red", "value": null }, { "color": "orange", "value": 90 }, { "color": "green", "value": 99 }] } } },
+      "targets": [{ "datasource": { "type": "prometheus", "uid": "retailflow-prometheus" }, "expr": "retailflow_data_quality_pass_rate", "legendFormat": "{{table}}", "refId": "A" }]
+    }
+  ]
+}

@@ -19,7 +19,7 @@ ALLOWED_STATUSES = {"pending", "paid", "shipped", "delivered", "cancelled"}
 
 def main():
     orders = read_latest(RAW_DIR, "orders")
-    customers = read_latest(RAW_DIR, "customers")
+    customers = read_latest(INTERIM_DIR, "customers")
     known_customer_ids = set(customers["customer_id"])
 
     rule_id_present = orders["order_id"].notna()
