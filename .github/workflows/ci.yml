@@ -1,0 +1,156 @@
+name: CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  pipeline-and-tests:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: retailflow
+          POSTGRES_USER: retailflow
+          POSTGRES_PASSWORD: retailflow_dev_pwd
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U retailflow"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    env:
+      POSTGRES_HOST: localhost
+      POSTGRES_PORT: "5432"
+      POSTGRES_DB: retailflow
+      POSTGRES_USER: retailflow
+      POSTGRES_PASSWORD: retailflow_dev_pwd
+      MOCK_API_URL: http://localhost:8000
+
+    steps:
+      - name: Recuperer le code
+        uses: actions/checkout@v4
+
+      - name: Installer Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Installer les dependances
+        run: |
+          pip install -r requirements.txt
+          pip install -e . --no-deps
+
+      - name: Installer le client psql
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y postgresql-client
+
+      - name: Creer le schema des tables source
+        run: psql "postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:$POSTGRES_PORT/$POSTGRES_DB" -f scripts/sql/create_source_tables.sql
+
+      - name: Creer le schema de l'entrepot (dwh)
+        run: psql "postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:$POSTGRES_PORT/$POSTGRES_DB" -f scripts/sql/create_warehouse_schema.sql
+
+      - name: Generer les donnees sources (amorcage)
+        run: python scripts/generate_data.py
+
+      - name: Generer le flux d'evenements (amorcage)
+        run: python scripts/generate_events.py
+
+      - name: Charger les CSV dans les tables Postgres source
+        run: |
+          psql "postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:$POSTGRES_PORT/$POSTGRES_DB" -c "\copy orders FROM 'data/external/orders.csv' WITH (FORMAT csv, HEADER true)"
+          psql "postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:$POSTGRES_PORT/$POSTGRES_DB" -c "\copy order_items FROM 'data/external/order_items.csv' WITH (FORMAT csv, HEADER true)"
+          psql "postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:$POSTGRES_PORT/$POSTGRES_DB" -c "\copy payments FROM 'data/external/payments.csv' WITH (FORMAT csv, HEADER true)"
+
+      - name: Demarrer le mock API produits
+        run: |
+          nohup uvicorn scripts.mock_products_api:app --host 0.0.0.0 --port 8000 > mock_api.log 2>&1 &
+          for i in $(seq 1 20); do
+            if curl -sf http://localhost:8000/health > /dev/null; then
+              echo "Mock API pret."
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "Le mock API n'a pas repondu a temps."
+          cat mock_api.log
+          exit 1
+
+      - name: Verifier les sources (equivalent check_sources du DAG)
+        run: |
+          curl -sf "$MOCK_API_URL/health" > /dev/null
+          PGPASSWORD=$POSTGRES_PASSWORD psql -h $POSTGRES_HOST -p $POSTGRES_PORT -U $POSTGRES_USER -d $POSTGRES_DB -c "SELECT 1;" > /dev/null
+          test -f data/external/customers.csv
+          test -f data/external/returns.csv
+          test -f data/external/inventory.csv
+          test -f data/external/events.jsonl
+
+      - name: Ingestion source A (Postgres)
+        run: python scripts/ingest_postgres_source.py
+
+      - name: Ingestion source B (API)
+        run: python scripts/ingest_api_source.py
+
+      - name: Ingestion source C (CSV)
+        run: python scripts/ingest_csv_source.py
+
+      - name: Ingestion source D (evenements)
+        run: python scripts/ingest_events_source.py
+
+      - name: Validation qualite (simple)
+        run: python scripts/validate_simple.py
+
+      - name: Validation des commandes
+        run: python scripts/validate_orders.py
+
+      - name: Validation des lignes de commande
+        run: python scripts/validate_order_items.py
+
+      - name: Validation des paiements
+        run: python scripts/validate_payments.py
+
+      - name: Construire la dimension date
+        run: python scripts/build_dim_date.py
+
+      - name: Charger les dimensions
+        run: python scripts/load_dimensions.py
+
+      - name: Charger les faits
+        run: python scripts/load_facts.py
+
+      - name: dbt run
+        working-directory: transform
+        env:
+          DBT_PROFILES_DIR: ${{ github.workspace }}/transform
+        run: dbt run
+
+      - name: dbt test
+        working-directory: transform
+        env:
+          DBT_PROFILES_DIR: ${{ github.workspace }}/transform
+        run: dbt test
+
+      - name: Lancer la suite de tests pytest
+        run: pytest -v
+
+  build-images:
+    runs-on: ubuntu-latest
+    needs: pipeline-and-tests
+    steps:
+      - name: Recuperer le code
+        uses: actions/checkout@v4
+
+      - name: Builder l'image API
+        run: docker build -f Dockerfile.app -t retailflow-app:ci .
+
+      - name: Builder l'image Airflow
+        run: docker build -f Dockerfile.airflow -t retailflow-airflow:ci .
