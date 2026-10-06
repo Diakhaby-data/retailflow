@@ -25,6 +25,11 @@ jobs:
           --health-timeout 5s
           --health-retries 10
 
+      pushgateway:
+        image: prom/pushgateway:latest
+        ports:
+          - 9091:9091
+
     env:
       POSTGRES_HOST: localhost
       POSTGRES_PORT: "5432"
@@ -32,6 +37,7 @@ jobs:
       POSTGRES_USER: retailflow
       POSTGRES_PASSWORD: retailflow_dev_pwd
       MOCK_API_URL: http://localhost:8000
+      PUSHGATEWAY_URL: http://localhost:9091
 
     steps:
       - name: Recuperer le code
@@ -138,6 +144,13 @@ jobs:
         env:
           DBT_PROFILES_DIR: ${{ github.workspace }}/transform
         run: dbt test
+
+      - name: Pousser les metriques de tests dbt
+        if: always()
+        run: python scripts/push_dbt_test_results.py
+
+      - name: Pousser le succes du pipeline
+        run: python scripts/push_pipeline_success.py
 
       - name: Lancer la suite de tests pytest
         run: pytest -v
