@@ -22,7 +22,7 @@ Pipeline, de la source au tableau de bord :
 3. **Entrepot** (`scripts/build_dim_date.py`, `load_dimensions.py`, `load_facts.py`) : chargement dans un schema PostgreSQL `dwh` modelise en etoile (dimensions clients, produits, date, entrepots ; faits commandes, lignes, paiements, retours, inventaire).
 4. **Transformation** (dbt, dossier `transform/`) : modeles `staging` (vues de nettoyage) puis `marts` (tables agregees, pretes a l'usage analytique), avec tests dbt sur chaque run.
 5. **Orchestration** : un DAG Airflow quotidien (`airflow/dags/retailflow_pipeline.py`, 16 taches) enchaine ces etapes avec gestion explicite des dependances et des regles de declenchement.
-6. **Exposition** : une API FastAPI sert les donnees des marts ; un dashboard Grafana affiche la sante du pipeline (volumes ingeres, taux de qualite, resultats des tests dbt) et les metriques de l'API (latence, taux d'erreur, trafic par route).
+6. **Exposition** : une API FastAPI sert les donnees des marts ; un dashboard Grafana affiche la sante du pipeline (volumes ingeres, taux de qualite, resultats des tests dbt) et les metriques de l'API (latence, taux d'erreur, trafic par route) ; un dashboard Metabase (« RetailFlow - Vue d'ensemble ») consomme directement les marts dbt pour une lecture metier du projet : evolution et repartition du chiffre d'affaires, segmentation des clients, sante du stock, top clients.
 7. **CI/CD** : un workflow GitHub Actions rejoue l'integralite de cette chaine (etapes 1 a 4, plus la suite de tests) sur un service PostgreSQL et un Pushgateway ephemeres a chaque push, puis verifie que les deux images Docker du projet se construisent sans erreur.
 
 ## Stack technique
@@ -36,6 +36,7 @@ Pipeline, de la source au tableau de bord :
 | Orchestration | Apache Airflow |
 | API | FastAPI |
 | Monitoring | Prometheus, Prometheus Pushgateway, Grafana |
+| BI / Restitution | Metabase |
 | Conteneurisation | Docker, Docker Compose |
 | CI/CD | GitHub Actions |
 | Tests | pytest (unitaires et integration) |
@@ -59,8 +60,11 @@ Services accessibles une fois les conteneurs demarres :
 | API | http://localhost:8001 |
 | Grafana | http://localhost:3000 |
 | Prometheus | http://localhost:9090 |
+| Metabase | http://localhost:3001 |
 
 Le DAG `retailflow_pipeline` se declenche depuis l'interface Airflow. Les dashboards Grafana (API et pipeline) sont provisionnes automatiquement au demarrage.
+
+Le dashboard Metabase, lui, n'est pas provisionne automatiquement : contrairement a Grafana, sa configuration (connexion a la base, questions, dashboard) est stockee dans un fichier H2 embarque a l'interieur du volume Docker `retailflow_metabase_data`, propre a chaque environnement. Sur un clone frais du depot, Metabase demarre vide ; la connexion a la base `retailflow` et le dashboard « RetailFlow - Vue d'ensemble » doivent etre recrees manuellement via l'interface (http://localhost:3001).
 
 ## API
 
