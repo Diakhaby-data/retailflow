@@ -4,6 +4,26 @@
 
 RetailFlow est un projet portfolio qui simule la plateforme data d'un site e-commerce : ingestion depuis plusieurs sources heterogenes, controle qualite, entrepot de donnees en modele en etoile, transformation avec dbt, exposition via une API, et supervision par Prometheus/Grafana. Le tout est orchestre par Apache Airflow, conteneurise avec Docker, et valide automatiquement a chaque push par une CI GitHub Actions qui rejoue le pipeline complet sur une base de donnees ephemere.
 
+## Aperçu
+
+![Vue d'ensemble du DAG Airflow](docs/screenshots/01-airflow-dag-graph.png)
+*Le DAG `retailflow_pipeline` (16 tâches) après un run réussi : ingestion des 4 sources, validation qualité, chargement de l'entrepôt, transformation dbt, jusqu'à la notification finale.*
+
+![Historique des runs Airflow](docs/screenshots/02-airflow-dag-history.png)
+*Historique des exécutions sur plusieurs jours, avec des runs planifiés automatiquement en plus des déclenchements manuels : preuve que le pipeline tourne en continu.*
+
+![Documentation interactive de l'API](docs/screenshots/03-api-swagger-docs.png)
+*Interface Swagger générée par FastAPI, avec l'ensemble des endpoints de consultation (clients, ventes, stock) et les schémas de données typés.*
+
+![Dashboard Grafana, santé du pipeline](docs/screenshots/04-grafana-pipeline-overview.png)
+*Supervision du pipeline : temps depuis le dernier succès, résultats des tests dbt, volumes ingérés et taux de qualité par table.*
+
+![Dashboard Grafana, métriques de l'API](docs/screenshots/05-grafana-api-overview.png)
+*Supervision de l'API en production : trafic par route, latence (P50/P95/P99), erreurs HTTP et consommation ressources.*
+
+![Dashboard Metabase, vue d'ensemble métier](docs/screenshots/06-metabase-dashboard.png)
+*Dashboard BI construit sur les marts dbt : chiffre d'affaires, répartition géographique et par catégorie, segmentation clients, santé du stock.*
+
 ## Architecture
 
 Quatre sources simulent des systemes reels distincts, exactement comme on en trouve dans une entreprise (un ERP, une API de catalogue, des exports CSV d'un outil tiers, un flux d'evenements applicatifs) :
