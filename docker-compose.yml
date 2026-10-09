@@ -96,6 +96,19 @@ services:
     depends_on:
       - prometheus
 
+  metabase:
+    image: metabase/metabase:latest
+    container_name: retailflow-metabase
+    environment:
+      MB_DB_FILE: /metabase-data/metabase.db
+    volumes:
+      - retailflow_metabase_data:/metabase-data
+    ports:
+      - "3001:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
 volumes:
   retailflow_pgdata:
     external: true
@@ -103,3 +116,4 @@ volumes:
   retailflow_airflow_venv:
   retailflow_prometheus_data:
   retailflow_grafana_data:
+  retailflow_metabase_data:
